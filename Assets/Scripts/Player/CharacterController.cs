@@ -12,8 +12,6 @@ namespace Test // adding namespace to separate between Character Controller of U
         private bool IsMoveForward;
         private bool IsMoveBack;
         private bool IsAttack;
-        private bool TurnLeft;
-        private bool TurnRight;
 
         private float _targetRotationY;
 
@@ -30,9 +28,9 @@ namespace Test // adding namespace to separate between Character Controller of U
         }
 
         void Update()
-        {
+        {   
            
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W))
             {
                 IsMoveForward = true;
                 IsAttack = false;
@@ -52,6 +50,7 @@ namespace Test // adding namespace to separate between Character Controller of U
             if (IsMoveForward)
             {
                 animator.SetBool("IsWalkForward", true);
+
                 animator.SetBool("Attack", false);
                 var t = currentSpeed / WalkSpeedMax;
                 animator.SetFloat("Speed", t);
@@ -73,7 +72,7 @@ namespace Test // adding namespace to separate between Character Controller of U
                 animator.SetBool("IsWalkForward", false);
                 animator.SetBool("IsWalkBack", true);
                 animator.SetBool("Attack", false);
-                
+
             }
 
             if (Input.GetKeyUp(KeyCode.S))
@@ -103,21 +102,21 @@ namespace Test // adding namespace to separate between Character Controller of U
         private void WalkForward()
         {
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotationY, 0.0f) * Vector3.forward;
-            rigibody.velocity = new Vector3(targetDirection.normalized.x * currentSpeed, rigibody.velocity.y, targetDirection.normalized.z * currentSpeed);
+           rigibody.velocity = new Vector3(targetDirection.normalized.x * currentSpeed, rigibody.velocity.y, targetDirection.normalized.z * currentSpeed);
 
         }
 
         private void WalkBack()
         {
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotationY, 0.0f) * Vector3.back;
-            //rigibody.velocity = targetDirection.normalized * currentSpeed;
+            rigibody.velocity = targetDirection.normalized * currentSpeed;
             rigibody.velocity = new Vector3(targetDirection.normalized.x * currentSpeed, rigibody.velocity.y, targetDirection.normalized.z * currentSpeed);
         }
 
         private void StopMove()
         {
             rigibody.velocity = new Vector3(0, rigibody.velocity.y, 0);
-            // rigibody.velocity = Vector3.zero;
+            rigibody.velocity = Vector3.zero;
         }
         private void Attack()
         {

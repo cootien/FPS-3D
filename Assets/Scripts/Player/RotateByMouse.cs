@@ -5,42 +5,41 @@ using DG.Tweening;
 
 public class RotateByMouse : MonoBehaviour
 {
-    [SerializeField] private Transform cameraHolder;
-    public float anglePerSecond;
-    //anglerPerSecond : how many degrees the camera should rotate per second based on mouse's movement.
-
+    public float angleOverDistance;
+    public Transform cameraHolder;
     public float minPitch;
     public float maxPitch;
 
     private float pitch;
 
-    private void Start()
+    public float mouseSensitivity = 100f;
+
+    float xRotation = 0f;
+    float YRotation = 0f;
+
+    void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked; // locked
-        Cursor.visible = false; // hide cursor in game 
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private void Update()
     {
-        UpdateYaw();
         UpdatePitch();
+        UpdateYaw();
     }
-    private void UpdateYaw() //xoay ngang
+    private void UpdateYaw()
     {
         float mouseX = Input.GetAxis("Mouse X");
-        float yaw = mouseX * anglePerSecond;
-        transform.Rotate(0, yaw, 0); // placed on Y position
-        //in 3d, turning left & right is based on Y axis ( truc doc )
+        float deltaYaw = mouseX * angleOverDistance;
+        transform.Rotate(0, deltaYaw, 0);
     }
-    private void UpdatePitch() // looking up & down
+
+    void UpdatePitch()
     {
         float mouseY = Input.GetAxis("Mouse Y");
-        float deltaPitch = -mouseY * anglePerSecond; // current pitch
-        //the negative in mouseY : when mouse Y down => the vertical ( camera looks up & vice versa )
-        //adding the negative to invert the direction
-
+        float deltaPitch = -mouseY * angleOverDistance;
         pitch = Mathf.Clamp(pitch + deltaPitch, minPitch, maxPitch);
-        //mathf.Clamp : is to ensure the result pitch stays within a specified range.
-        // pitch + deltaPitch : keep updating the current pitch into next move 
-        cameraHolder.localEulerAngles = new Vector3(pitch, 0, 0);      
+        cameraHolder.localEulerAngles = new Vector3(pitch, 0, 0);
+
     }
 }
