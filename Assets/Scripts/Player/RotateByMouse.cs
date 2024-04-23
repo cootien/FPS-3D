@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class RotateByMouse : MonoBehaviour
 {
-    public float angleOverDistance;
-    public Transform cameraHolder;
+    [SerializeField] private Transform cameraHolder;
+    public float anglePerSecond;
     public float minPitch;
     public float maxPitch;
 
@@ -14,8 +13,6 @@ public class RotateByMouse : MonoBehaviour
 
     public float mouseSensitivity = 100f;
 
-    float xRotation = 0f;
-    float YRotation = 0f;
 
     void Start()
     {
@@ -30,14 +27,14 @@ public class RotateByMouse : MonoBehaviour
     private void UpdateYaw()
     {
         float mouseX = Input.GetAxis("Mouse X");
-        float deltaYaw = mouseX * angleOverDistance;
+        float deltaYaw = mouseX * anglePerSecond;
         transform.Rotate(0, deltaYaw, 0);
     }
 
     void UpdatePitch()
     {
         float mouseY = Input.GetAxis("Mouse Y");
-        float deltaPitch = -mouseY * angleOverDistance;
+        float deltaPitch = -mouseY * anglePerSecond;
         pitch = Mathf.Clamp(pitch + deltaPitch, minPitch, maxPitch);
         cameraHolder.localEulerAngles = new Vector3(pitch, 0, 0);
 

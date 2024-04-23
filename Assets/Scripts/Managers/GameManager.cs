@@ -16,17 +16,17 @@ public class GameManager : Singleton<GameManager>
         Cursor.visible = true;
         Time.timeScale = 0; 
     }
-    public void OnGameover()
-    {
-        StopGame();
-        PanelGameOver.SetActive(true);
-    }
+    //public void OnGameover()
+    //{
+    //    StopGame();
+    //    PanelGameOver.SetActive(true);
+    //}
 
-    public void OnMissionCompleted()
-    {
-        StopGame();
-        PanelGameWin.SetActive(true);
-    }
+    //public void OnMissionCompleted()
+    //{
+    //    StopGame();
+    //    PanelGameWin.SetActive(true);
+    //}
 
 
 }
