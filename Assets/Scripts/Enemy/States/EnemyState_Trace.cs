@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FSMHelper; 
+using FSMHelper;
 
-public class EnemyPatrollingState : BaseFSMState
+public class EnemyState_Trace : BaseFSMState
 {
     private EnemyStateMachine _enemySM;
     private Transform _target;
+
     public override void Enter()
     {
         if (_enemySM == null)
@@ -21,7 +22,7 @@ public class EnemyPatrollingState : BaseFSMState
 
         if (Vector3.Distance(_enemySM.EnemyAI.transform.position, _enemySM.EnemyAI.SpawnPos.position) > 30f)
         {
-            DoTransition(typeof(EnemyState_Idle));
+            DoTransition(typeof(EnemyState_Patrolling));
         }
         else if (Vector3.Distance(_enemySM.EnemyAI.transform.position, Player.Instance.PlayerFoot.transform.position) <= 2f)
         {
@@ -37,9 +38,9 @@ public class EnemyPatrollingState : BaseFSMState
         {
             DoTransition(typeof(EnemyState_Attack));
         }
-        else if (args.Length == 1 && (string)args[0] == "Idle")
+        else if (args.Length == 1 && (string)args[0] == "Patrol")
         {
-            DoTransition(typeof(EnemyState_Idle));
+            DoTransition(typeof(EnemyState_Patrolling));
         }
     }
 }

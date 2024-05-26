@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine; 
 
 public class GameManager : Singleton<GameManager>
 {
+    
     private int CurrentLevel;
+    
 
     private void Start()
     {
         CurrentLevel = 1; 
     }
+    
     private void StopGame()
     {
         Cursor.lockState = CursorLockMode.None;

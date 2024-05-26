@@ -9,14 +9,30 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private EnemyAttack enemyAttack;
+    //[SerializeField] private EnemyMovement enemyMovement;
 
 
     public Animator Animator => animator;
     public NavMeshAgent Agent => agent;
     public EnemyAttack EnemyAttack => enemyAttack;
+    //public EnemyMovement EnemyMovement => enemyMovement;
     public Transform SpawnPos;
 
     private EnemyStateMachine m_EnemySM = null;
+    //private Coroutine attackCoroutine;
+    private float attackDuration = 5f;
+
+    private Transform _target;
+
+    public Transform EnemyTargetMove
+    {
+        get => _target;
+        set
+        {
+            _target = value;
+        }
+    }
+
 
     void Start()
     {
@@ -45,12 +61,12 @@ public class EnemyAI : MonoBehaviour
     //    m_EnemySM.BroadcastMessage(args);
     //}
 
-    //public void ComeBack()
-    //{
-    //    object[] args = new object[1];
-    //    args[0] = "ComeBack";
-    //    m_EnemySM.BroadcastMessage(args);
-    //}
+    public void Idle()
+    {
+        object[] args = new object[1];
+        args[0] = "Idle";
+        m_EnemySM.BroadcastMessage(args);
+    }
 
     public void Attack()
     {
@@ -66,4 +82,34 @@ public class EnemyAI : MonoBehaviour
         m_EnemySM.BroadcastMessage(args);
     }
 
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Debug.Log("Attack");
+
+            Attack();
+        }
+    }
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            //Debug.Log("attack exit");
+            //if (attackCoroutine != null)
+            //    StopCoroutine(attackCoroutine);
+             Patrol();
+        }
+    }
+    IEnumerator Delay()
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < attackDuration)
+        {
+            yield return null;
+            elapsedTime += Time.deltaTime;
+        }
+
+    }
+    
 }

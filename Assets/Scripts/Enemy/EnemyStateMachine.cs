@@ -17,6 +17,8 @@ public class EnemyStateMachine : FSMStateMachine
         children.Add(typeof(EnemyState_Idle));
         children.Add(typeof(EnemyState_Attack));
         children.Add(typeof(EnemyState_Patrolling));
-        
+        children.Add(typeof(EnemyState_Trace));
+
+
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 namespace Test // adding namespace to separate between Character Controller of Unity vs self-created
 {
@@ -8,6 +9,7 @@ namespace Test // adding namespace to separate between Character Controller of U
     {
         [SerializeField] private Animator animator;
         [SerializeField] private Rigidbody rigibody;
+        [SerializeField] private CinemachineVirtualCamera attackCamera;
 
         private bool IsMoveForward;
         private bool IsMoveBack;
@@ -28,8 +30,7 @@ namespace Test // adding namespace to separate between Character Controller of U
         }
 
         void Update()
-        {   
-           
+        {
             if (Input.GetKeyDown(KeyCode.W))
             {
                 IsMoveForward = true;
@@ -81,7 +82,7 @@ namespace Test // adding namespace to separate between Character Controller of U
                 StopMove();
             }
 
-            if (Input.GetMouseButton(0))
+            if (Input.GetKeyUp(KeyCode.X))
             {
                 IsAttack = true;
                 currentSpeed = 0;
@@ -89,9 +90,15 @@ namespace Test // adding namespace to separate between Character Controller of U
 
             if (IsAttack)
             {
-                animator.SetTrigger("Attack");
                 Attack();
+                CameraSwitcher.Instance.TargetCam();
             }
+            if (!IsAttack)
+            {
+                CameraSwitcher.Instance.PrimaryCam();
+            }
+
+
 
 
             float mouseX = Input.GetAxis("Mouse X");
@@ -103,7 +110,7 @@ namespace Test // adding namespace to separate between Character Controller of U
         {
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotationY, 0.0f) * Vector3.forward;
            rigibody.velocity = new Vector3(targetDirection.normalized.x * currentSpeed, rigibody.velocity.y, targetDirection.normalized.z * currentSpeed);
-
+           
         }
 
         private void WalkBack()
@@ -120,8 +127,9 @@ namespace Test // adding namespace to separate between Character Controller of U
         }
         private void Attack()
         {
-            
+            animator.SetBool("Attack", true);
         }
+
     }
 }
 
