@@ -17,7 +17,6 @@ public class EnemyIdleState : StateMachineBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform; 
     }
 
- 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timer += Time.deltaTime;

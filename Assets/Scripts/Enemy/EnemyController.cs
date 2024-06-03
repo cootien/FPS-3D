@@ -19,6 +19,8 @@ public class EnemyController : MonoBehaviour
     private void Update()
     {
         patrolBehavior();
+      
+        
 
         Debug.Log(currentPointIndex);
     }
@@ -38,5 +40,6 @@ public class EnemyController : MonoBehaviour
             currentPointIndex = patrolPoints.getNextPointIndex(currentPointIndex);
         }
     }
+    
 
 }
