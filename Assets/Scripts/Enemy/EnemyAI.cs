@@ -7,13 +7,13 @@ using FSMHelper;
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private NavMeshAgent agent;
+    //[SerializeField] private NavMeshAgent agent;
     [SerializeField] private EnemyAttack enemyAttack;
     //[SerializeField] private EnemyMovement enemyMovement;
 
 
     public Animator Animator => animator;
-    public NavMeshAgent Agent => agent;
+    //public NavMeshAgent Agent => agent;
     public EnemyAttack EnemyAttack => enemyAttack;
     //public EnemyMovement EnemyMovement => enemyMovement;
     public Transform SpawnPos;

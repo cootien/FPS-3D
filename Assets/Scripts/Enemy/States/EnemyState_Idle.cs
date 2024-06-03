@@ -10,7 +10,7 @@ public class EnemyState_Idle : BaseFSMState
     private EnemyStateMachine _enemySM;
 
     private float waitTime;
-    private NavMeshAgent _agent;
+    //private NavMeshAgent _agent;
 
     public override void Enter()
     {
@@ -19,20 +19,20 @@ public class EnemyState_Idle : BaseFSMState
         {
             _enemySM = (EnemyStateMachine)GetStateMachine();
         }
-        _agent = _enemySM.EnemyAI.Agent;
-        _agent.isStopped = true; 
+        //_agent = _enemySM.EnemyAI.Agent;
+        //_agent.isStopped = true; 
 
         _enemySM.EnemyAI.Animator.SetBool("IsPatrolling", false);
         waitTime = Random.Range(5, 7);
     }
     public override void Update()
     {
-        waitTime -= Time.deltaTime;
-        if (waitTime <= 0)
-        {
-            _agent.isStopped = false;
-            DoTransition(typeof(EnemyState_Patrolling));
-        }
+        //waitTime -= Time.deltaTime;
+        //if (waitTime <= 0)
+        //{
+        //    _agent.isStopped = false;
+        //    DoTransition(typeof(EnemyState_Patrolling));
+        //}
     }
     public override void Exit()
     {

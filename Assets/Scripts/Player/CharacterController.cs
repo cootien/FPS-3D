@@ -9,10 +9,10 @@ namespace Test // adding namespace to separate between Character Controller of U
     {
         [SerializeField] private Animator animator;
         [SerializeField] private Rigidbody rigibody;
-        [SerializeField] private CinemachineVirtualCamera attackCamera;
 
-        private bool IsMoveForward;
-        private bool IsMoveBack;
+
+        private bool IsWalkForward;
+        private bool IsWalkBack;
         private bool IsAttack;
 
         private float _targetRotationY;
@@ -25,7 +25,8 @@ namespace Test // adding namespace to separate between Character Controller of U
  
         void Start()
         {
-            animator = GetComponent<Animator>();
+            CameraSwitcher.Instance.PrimaryCam();
+           // animator = GetComponent<Animator>();ss
             Physics.gravity = new Vector3(0, -20f, 0);
         }
 
@@ -33,8 +34,8 @@ namespace Test // adding namespace to separate between Character Controller of U
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
-                IsMoveForward = true;
-                IsAttack = false;
+                CameraSwitcher.Instance.PrimaryCam();
+                IsWalkForward = true;
 
                 if (currentSpeed < WalkSpeedMax)
                 {
@@ -44,17 +45,15 @@ namespace Test // adding namespace to separate between Character Controller of U
 
             if (Input.GetKeyUp(KeyCode.W))
             {
-                IsMoveForward = false;
+                IsWalkForward = false;
                 currentSpeed = 0;
             }
 
-            if (IsMoveForward)
+            if (IsWalkForward)
             {
                 animator.SetBool("IsWalkForward", true);
-
-                animator.SetBool("Attack", false);
                 var t = currentSpeed / WalkSpeedMax;
-                animator.SetFloat("Speed", t);
+               // animator.SetFloat("Speed", t);
                 WalkForward();
             }
             else
@@ -65,41 +64,34 @@ namespace Test // adding namespace to separate between Character Controller of U
 
             if (Input.GetKey(KeyCode.S))
             {
-                IsMoveForward = false;
-                IsMoveBack = true;
-                IsAttack = false;
+                IsWalkBack = true;
                 currentSpeed = WalkSpeedMax;
                 WalkBack();
-                animator.SetBool("IsWalkForward", false);
                 animator.SetBool("IsWalkBack", true);
-                animator.SetBool("Attack", false);
+
+
 
             }
 
             if (Input.GetKeyUp(KeyCode.S))
             {
                 animator.SetBool("IsWalkBack", false);
+
                 StopMove();
             }
 
-            if (Input.GetKeyUp(KeyCode.X))
+            if (Input.GetMouseButtonDown(0))
             {
                 IsAttack = true;
                 currentSpeed = 0;
+                animator.SetBool("Attack", true);
+              
             }
-
-            if (IsAttack)
+            if (Input.GetMouseButtonUp(0))
             {
-                Attack();
-                CameraSwitcher.Instance.TargetCam();
+                IsAttack = false;
+                animator.SetBool("Attack", false);
             }
-            if (!IsAttack)
-            {
-                CameraSwitcher.Instance.PrimaryCam();
-            }
-
-
-
 
             float mouseX = Input.GetAxis("Mouse X");
             transform.Rotate(new Vector3(0, mouseX * rotateSpeed, 0));
@@ -108,13 +100,17 @@ namespace Test // adding namespace to separate between Character Controller of U
 
         private void WalkForward()
         {
+
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotationY, 0.0f) * Vector3.forward;
+
            rigibody.velocity = new Vector3(targetDirection.normalized.x * currentSpeed, rigibody.velocity.y, targetDirection.normalized.z * currentSpeed);
            
         }
 
         private void WalkBack()
         {
+
+
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotationY, 0.0f) * Vector3.back;
             rigibody.velocity = targetDirection.normalized * currentSpeed;
             rigibody.velocity = new Vector3(targetDirection.normalized.x * currentSpeed, rigibody.velocity.y, targetDirection.normalized.z * currentSpeed);
@@ -122,12 +118,9 @@ namespace Test // adding namespace to separate between Character Controller of U
 
         private void StopMove()
         {
+
             rigibody.velocity = new Vector3(0, rigibody.velocity.y, 0);
             rigibody.velocity = Vector3.zero;
-        }
-        private void Attack()
-        {
-            animator.SetBool("Attack", true);
         }
 
     }

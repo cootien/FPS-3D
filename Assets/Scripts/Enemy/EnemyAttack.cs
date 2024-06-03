@@ -36,24 +36,12 @@ public class EnemyAttack : MonoBehaviour
     {
         if (_target != null)
         {
-            var distance = Vector3.Distance(transform.position, _target.position);
-
-            if (distance > reachingRadius)
-            {
-                agent.SetDestination(_target.position);
-            }
-            //else
-            //{         
-            //    StartAttack();
-            //}
-   
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, _target.eulerAngles.y + 180f, transform.eulerAngles.z);
         }
     }
 
     public void StartAttack()
     {
-
         anim.SetBool("Detected", true);
         anim.SetBool("IsPatrolling", false);
     }
@@ -62,6 +50,16 @@ public class EnemyAttack : MonoBehaviour
     {
         anim.SetBool("Detected", false);
         anim.SetBool("IsPatrolling", true);
+    }
+
+    public void OnAttack()
+    {
+        var distance = Vector3.Distance(transform.position, _target.position);
+
+        if (distance > reachingRadius)
+        {
+            agent.SetDestination(_target.position);
+        }
     }
     
     public void OnEnemyDie()

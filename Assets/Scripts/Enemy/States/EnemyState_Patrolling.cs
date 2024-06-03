@@ -26,7 +26,7 @@ public class EnemyState_Patrolling : BaseFSMState
         }
 
         _patrolCenter = _enemySM.EnemyAI.SpawnPos;
-        _agent = _enemySM.EnemyAI.Agent;
+        //_agent = _enemySM.EnemyAI.Agent;
         _agent.speed = speed;
         _agent.stoppingDistance = stoppingDistance;
 
@@ -36,10 +36,10 @@ public class EnemyState_Patrolling : BaseFSMState
     }
     public override void Update()
     {
-        if (!_enemySM.EnemyAI.Agent.pathPending && _enemySM.EnemyAI.Agent.remainingDistance <= _enemySM.EnemyAI.Agent.stoppingDistance)
-        {
-            SetNewDestination();
-        }
+        //if (!_enemySM.EnemyAI.Agent.pathPending && _enemySM.EnemyAI.Agent.remainingDistance <= _enemySM.EnemyAI.Agent.stoppingDistance)
+        //{
+        //    SetNewDestination();
+        //}
     }
     public override void Exit()
     {
@@ -50,11 +50,11 @@ public class EnemyState_Patrolling : BaseFSMState
         Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
         Vector3 newDestination = _patrolCenter.position + randomDirection;
 
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(newDestination, out hit, patrolRadius, NavMesh.AllAreas))
-        {
-            _enemySM.EnemyAI.Agent.SetDestination(hit.position);
-        }
+        //NavMeshHit hit;
+        //if (NavMesh.SamplePosition(newDestination, out hit, patrolRadius, NavMesh.AllAreas))
+        //{
+        //    _enemySM.EnemyAI.Agent.SetDestination(hit.position);
+        //}
     }
 
     public override void ReceiveMessage(object[] args)

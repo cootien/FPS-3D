@@ -17,7 +17,8 @@ public class EnemyPatrollingState : BaseFSMState
     }
     public override void Update()
     {
-        _enemySM.EnemyAI.Agent.SetDestination(Player.Instance.PlayerFoot.transform.position);
+        //  Vector3 nextPosition = _enemySM.EnemyAI.patrolPoints.get
+       
 
         if (Vector3.Distance(_enemySM.EnemyAI.transform.position, _enemySM.EnemyAI.SpawnPos.position) > 30f)
         {
