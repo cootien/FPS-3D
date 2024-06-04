@@ -22,10 +22,11 @@ public class EnemyState_Patrolling : BaseFSMState
         {
             _enemySM = (EnemyStateMachine)GetStateMachine();
         }
+        _agent = _enemySM.EnemyAI.Agent;
         speed = Random.Range(3f, 5f);
         _agent.speed = speed;
 
-        patrolDestination(_enemySM.EnemyAI.transform);
+        patrolDestination();
 
         _enemySM.EnemyAI.Animator.SetBool("IsPatrolling", true);
     }
@@ -34,7 +35,7 @@ public class EnemyState_Patrolling : BaseFSMState
     {
     }
 
-    private void patrolDestination(Transform enemyTransform)
+    public void patrolDestination()
     {
         float distanceToWaypoint = Vector3.Distance(_enemySM.EnemyAI.transform.position, patrolPoints.GetPointPosition(currentPointIndex));
 

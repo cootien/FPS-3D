@@ -4765,7 +4765,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489d24f0df5954dfca2b14d0db62f4b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolPoints: {fileID: 0}
   animator: {fileID: 906211797}
   agent: {fileID: 0}
   enemyAttack: {fileID: 906211798}
@@ -5856,7 +5855,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1173353771
 Transform:
   m_ObjectHideFlags: 0
@@ -7672,7 +7671,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2bb5b835e645b49ccaac6973f3508323, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2bb5b835e645b49ccaac6973f3508323, type: 3}
       propertyPath: m_TagString
@@ -12699,7 +12698,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489d24f0df5954dfca2b14d0db62f4b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolPoints: {fileID: 769003107}
   animator: {fileID: 9151121002483084355}
   agent: {fileID: 9151121002483084353}
   enemyAttack: {fileID: 9151121002483084357}

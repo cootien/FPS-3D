@@ -15,7 +15,7 @@ public class EnemyState_Attack : BaseFSMState
 
     public override void Enter()
     {
-        Debug.Log("============ Zombie Attaack");
+        Debug.Log("============ Zombie Ataack");
 
         if (_enemySM == null)
         {

@@ -24,6 +24,7 @@ public class EnemyAI : MonoBehaviour
     {
         m_EnemySM = new EnemyStateMachine(this);
         m_EnemySM.StartSM();
+        Debug.Log(this.GetType().Name);
     }
 
     void Update()
@@ -47,12 +48,12 @@ public class EnemyAI : MonoBehaviour
         m_EnemySM.BroadcastMessage(args);
     }
 
-    public void Idle()
-    {
-        object[] args = new object[1];
-        args[0] = "Idle";
-        m_EnemySM.BroadcastMessage(args);
-    }
+    //public void Idle()
+    //{
+    //    object[] args = new object[1];
+    //    args[0] = "Idle";
+    //    m_EnemySM.BroadcastMessage(args);
+    //}
 
     public void Attack()
     {
