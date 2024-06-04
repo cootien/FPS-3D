@@ -6,33 +6,18 @@ using FSMHelper;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] private PatrolPoints patrolPoints;
+    
     [SerializeField] private Animator animator;
-    //[SerializeField] private NavMeshAgent agent;
+    [SerializeField] private NavMeshAgent agent;
     [SerializeField] private EnemyAttack enemyAttack;
-    //[SerializeField] private EnemyMovement enemyMovement;
 
-
+    public Transform Transform => transform; 
     public Animator Animator => animator;
-    //public NavMeshAgent Agent => agent;
+    public NavMeshAgent Agent => agent;
     public EnemyAttack EnemyAttack => enemyAttack;
-    //public EnemyMovement EnemyMovement => enemyMovement;
     public Transform SpawnPos;
 
     private EnemyStateMachine m_EnemySM = null;
-    //private Coroutine attackCoroutine;
-    private float attackDuration = 5f;
-
-    private Transform _target;
-
-    public Transform EnemyTargetMove
-    {
-        get => _target;
-        set
-        {
-            _target = value;
-        }
-    }
 
 
     void Start()
@@ -55,12 +40,12 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    //public void TracePlayer()
-    //{
-    //    object[] args = new object[1];
-    //    args[0] = "Trace";
-    //    m_EnemySM.BroadcastMessage(args);
-    //}
+    public void ComeBack()
+    {
+        object[] args = new object[1];
+        args[0] = "ComeBack";
+        m_EnemySM.BroadcastMessage(args);
+    }
 
     public void Idle()
     {
@@ -81,36 +66,6 @@ public class EnemyAI : MonoBehaviour
         object[] args = new object[1];
         args[0] = "Patrol";
         m_EnemySM.BroadcastMessage(args);
-    }
-
-    //public void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.tag == "Player")
-    //    {
-    //        Debug.Log("Attack");
-
-    //        Attack();
-    //    }
-    //}
-    //public void OnTriggerExit(Collider other)
-    //{
-    //    if (other.gameObject.tag == "Player")
-    //    {
-    //        //Debug.Log("attack exit");
-    //        //if (attackCoroutine != null)
-    //        //    StopCoroutine(attackCoroutine);
-    //         Patrol();
-    //    }
-    //}
-    IEnumerator Delay()
-    {
-        float elapsedTime = 0f;
-        while (elapsedTime < attackDuration)
-        {
-            yield return null;
-            elapsedTime += Time.deltaTime;
-        }
-
     }
     
 }

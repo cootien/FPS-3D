@@ -6,17 +6,16 @@ using UnityEngine.Events;
 
 public class EnemyAttack : MonoBehaviour
 {
-    [SerializeField] private EnemySO EnemySO;
+    //[SerializeField] private EnemySO EnemySO;
     [SerializeField] private Animator anim;
-    [SerializeField] private NavMeshAgent agent;
-
-    private Health playerHealth;
+    [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private Transform _target;
+    //private Health playerHealth;
 
     public float reachingRadius;
+    public float attackTime = 5f; 
     public UnityEvent onDestinationReached;
     public UnityEvent onStartMoving;
-
-    private Transform _target;
 
 
     public Transform EnemyTargetMove
@@ -27,47 +26,41 @@ public class EnemyAttack : MonoBehaviour
             _target = value;
         }
     }
-    
+
     private void Start()
     {
         //playerHealth = Player.Instance.HealthPlayer;
     }
-    public void UpdateMovement()
-    {
-        if (_target != null)
-        {
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, _target.eulerAngles.y + 180f, transform.eulerAngles.z);
-        }
-    }
 
     public void StartAttack()
     {
+        //RandomMovement();
         anim.SetBool("Detected", true);
-        anim.SetBool("IsPatrolling", false);
+
     }
 
     public void StopAttack()
     {
+        //RandomMovement();
         anim.SetBool("Detected", false);
-        anim.SetBool("IsPatrolling", true);
     }
 
     public void OnAttack()
     {
-        var distance = Vector3.Distance(transform.position, _target.position);
-
-        if (distance > reachingRadius)
-        {
-            agent.SetDestination(_target.position);
-        }
+        
     }
     
     public void OnEnemyDie()
     {
         enabled = false;
-        agent.isStopped = true;
+        _agent.isStopped = true;
         anim.SetTrigger("Die");
         Debug.Log("Die");
     }
+    //private void RandomMovement()
+    //{
+    //    attackTime -= Time.deltaTime;
+    //    if(attackTime <= 1) => anim.SetInteger("DetectedIndex", 1);
+    //}
     
 }

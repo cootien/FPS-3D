@@ -14,10 +14,12 @@ public class EnemyStateMachine : FSMStateMachine
 
     public override void SetupDefinition(ref FSMStateType stateType, ref List<System.Type> children)
     {
-        children.Add(typeof(EnemyState_Idle));
+        //children.Add(typeof(EnemyState_Idle));
         children.Add(typeof(EnemyState_Attack));
         children.Add(typeof(EnemyState_Patrolling));
-        children.Add(typeof(EnemyState_Trace));
+        children.Add(typeof(EnemyState_ComeBack));
+
+        //children.Add(typeof(EnemyState_Trace));
 
 
     }
