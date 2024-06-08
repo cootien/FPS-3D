@@ -11,19 +11,32 @@ public class EnemyState_Attack : BaseFSMState
 
     private float attackSpeed =6f;
 
-    //private Coroutine attackCoroutine;
 
     public override void Enter()
     {
-        Debug.Log("============ Zombie Ataack");
+        Debug.Log("============ Enemy Ataack");
 
         if (_enemySM == null)
         {
             _enemySM = (EnemyStateMachine)GetStateMachine();
+            Debug.Log($"======= Enemy SM != null: {_enemySM != null}");
         }
+
+
+
+
         _agent.speed = attackSpeed;
 
+
+
+
+
+
         _enemySM.EnemyAI.EnemyAttack.StartAttack();
+
+
+
+
 
     }
     public override void Update()

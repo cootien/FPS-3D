@@ -9,6 +9,7 @@ namespace Test // adding namespace to separate between Character Controller of U
     {
         [SerializeField] private Animator animator;
         [SerializeField] private Rigidbody rigibody;
+        [SerializeField] private PlayerAttack playerAttack;
 
 
         private bool IsWalkForward;
@@ -18,15 +19,17 @@ namespace Test // adding namespace to separate between Character Controller of U
         private float _targetRotationY;
 
         public float WalkSpeedMax;
+        public int damage;
+        public Collider enemy;
 
         private float currentSpeed;
         public float rotateSpeed;
 
- 
+
         void Start()
         {
             CameraSwitcher.Instance.PrimaryCam();
-           // animator = GetComponent<Animator>();ss
+            // animator = GetComponent<Animator>();ss
             Physics.gravity = new Vector3(0, -20f, 0);
         }
 
@@ -53,7 +56,7 @@ namespace Test // adding namespace to separate between Character Controller of U
             {
                 animator.SetBool("IsWalkForward", true);
                 var t = currentSpeed / WalkSpeedMax;
-               // animator.SetFloat("Speed", t);
+                // animator.SetFloat("Speed", t);
                 WalkForward();
             }
             else
@@ -69,8 +72,6 @@ namespace Test // adding namespace to separate between Character Controller of U
                 WalkBack();
                 animator.SetBool("IsWalkBack", true);
 
-
-
             }
 
             if (Input.GetKeyUp(KeyCode.S))
@@ -80,17 +81,20 @@ namespace Test // adding namespace to separate between Character Controller of U
                 StopMove();
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(KeyCode.X))
             {
+                Debug.Log("Keycode X");
                 IsAttack = true;
                 currentSpeed = 0;
-                animator.SetBool("Attack", true);
-              
+                playerAttack.StartAttack();
+                playerAttack.DeliverDamage(enemy);
+
+
             }
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetKeyUp(KeyCode.X))
             {
                 IsAttack = false;
-                animator.SetBool("Attack", false);
+                playerAttack.StopAttack();
             }
 
             float mouseX = Input.GetAxis("Mouse X");
@@ -103,13 +107,12 @@ namespace Test // adding namespace to separate between Character Controller of U
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotationY, 0.0f) * Vector3.forward;
 
-           rigibody.velocity = new Vector3(targetDirection.normalized.x * currentSpeed, rigibody.velocity.y, targetDirection.normalized.z * currentSpeed);
-           
+            rigibody.velocity = new Vector3(targetDirection.normalized.x * currentSpeed, rigibody.velocity.y, targetDirection.normalized.z * currentSpeed);
+
         }
 
         private void WalkBack()
         {
-
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotationY, 0.0f) * Vector3.back;
             rigibody.velocity = targetDirection.normalized * currentSpeed;
@@ -118,11 +121,24 @@ namespace Test // adding namespace to separate between Character Controller of U
 
         private void StopMove()
         {
-
             rigibody.velocity = new Vector3(0, rigibody.velocity.y, 0);
             rigibody.velocity = Vector3.zero;
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            Debug.Log("OnCollisionEnter enemy");
+            if (collision.gameObject.CompareTag("Enemy") &&  IsAttack)
+            {
+                Debug.Log("enemy = collider");
+                enemy = collision.collider;
+            }
+        }
+        private void OnCollisionExit(Collision collision)
+        {
+            Debug.Log("OnCollisionExit enemy");
+            enemy = null;
+        }
     }
 }
 

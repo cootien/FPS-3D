@@ -95,13 +95,13 @@ AnimatorStateMachine:
     m_Position: {x: 270, y: 130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7040803994925104651}
-    m_Position: {x: 490, y: 330, z: 0}
+    m_Position: {x: 470, y: 260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1137628172285366718}
     m_Position: {x: 590, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6330440283800256550}
-    m_Position: {x: 160, y: 340, z: 0}
+    m_Position: {x: 260, y: 390, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2184775653042465794}
     m_Position: {x: 0.058776855, y: 242.40375, z: 0}
@@ -180,19 +180,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: IsWalkBack
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -341,7 +341,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Attack
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5807676167923138388}
@@ -354,7 +354,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: da6bd8bf4bda24a5183d4f7936bbf619, type: 2}
+  m_Motion: {fileID: 7400000, guid: 008abf6ae1b6442ebb04c199af0f8766, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
