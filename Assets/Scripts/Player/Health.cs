@@ -41,6 +41,7 @@ public class Health : MonoBehaviour
         if (IsDead)
         {
             anim.SetTrigger("Die");
+            Debug.Log("Enemy Died");
         }
         onDie.Invoke();
     }

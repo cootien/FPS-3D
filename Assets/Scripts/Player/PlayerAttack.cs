@@ -11,12 +11,12 @@ public class PlayerAttack : MonoBehaviour
 
     public void StartAttack()
     {
-        animator.SetBool("Detected", true);
+        animator.SetBool("Attack", true);
     }
 
     public void StopAttack()
     {
-        animator.SetBool("Detected", false);
+        animator.SetBool("Attack", false);
     }
 
     public void DeliverDamage(Collider enemy)

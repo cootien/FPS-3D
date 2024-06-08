@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Events;
 
 
 public class LightRayCast : MonoBehaviour
@@ -8,20 +10,22 @@ public class LightRayCast : MonoBehaviour
     [SerializeField] Transform point1;
     [SerializeField] Transform point2;
 
+    public UnityEvent playerDetected;
+
     public float lightRadius = 3f; 
-    public LayerMask playerLayer; 
+    public LayerMask playerLayer;
 
-
-    private void Update()
+    public void OnTriggerEnter(Collider other)
     {
         float lightLength = Vector3.Distance(point1.position, point2.position);
 
-        Collider[] colliders = Physics.OverlapCapsule(point1.position, point2.position, lightRadius, playerLayer);
-        if(colliders.Length > 0)
+        Collider[] colliders = Physics.OverlapCapsule(point1.position, point2.position, lightRadius*lightLength, playerLayer);
+        if (colliders.Length > 0)
         {
-            Debug.Log("Detect player");
-        }   
-        
+            playerDetected.Invoke();
+            Debug.Log("Ontrigger enter player && PlayerDetected Invoked");
+        }
     }
+
 }
 
