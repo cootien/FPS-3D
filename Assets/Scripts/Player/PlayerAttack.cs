@@ -21,10 +21,10 @@ public class PlayerAttack : MonoBehaviour
 
     public void DeliverDamage(Collider enemy)
     {
-        Debug.Log("Deliver Damage");
         Health health = enemy.GetComponentInParent<Health>();
         if (health != null)
         {
+            Debug.Log("Deliver Damage");
             health.TakeDamage(damage);
         }
     }

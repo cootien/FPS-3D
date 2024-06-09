@@ -15,8 +15,11 @@ public class LightRayCast : MonoBehaviour
     public float lightRadius = 3f; 
     public LayerMask playerLayer;
 
+
+
     public void OnTriggerEnter(Collider other)
     {
+
         float lightLength = Vector3.Distance(point1.position, point2.position);
 
         Collider[] colliders = Physics.OverlapCapsule(point1.position, point2.position, lightRadius*lightLength, playerLayer);

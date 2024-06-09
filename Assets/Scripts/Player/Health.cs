@@ -9,23 +9,25 @@ public class Health : MonoBehaviour
     [SerializeField] private Animator anim;
 
     public UnityEvent<int, int> onHealthChanged;
-    public int maxHP;
+    public int MaxHP;
+
     private int _healthPoint;  
 
     private bool IsDead => _healthPoint <=0 ;
-    
+
     public int HealthPoint
     {
         get => _healthPoint;
         set
         {
             _healthPoint = value;
-            onHealthChanged.Invoke(_healthPoint, maxHP);
+            onHealthChanged.Invoke(_healthPoint, MaxHP);
         }
+
     }
-    public void Start()
+    protected virtual void Start()
     {
-        _healthPoint = maxHP;
+        _healthPoint = MaxHP;
     }
     public void TakeDamage(int damage)
     {
@@ -36,12 +38,11 @@ public class Health : MonoBehaviour
             Die();
         }
     }
-    public void Die()
+    protected virtual void Die()
     {
-        if (IsDead)
+        if (anim != null)
         {
             anim.SetTrigger("Die");
-            Debug.Log("Enemy Died");
         }
         onDie.Invoke();
     }

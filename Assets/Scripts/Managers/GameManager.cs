@@ -6,7 +6,7 @@ using Cinemachine;
 public class GameManager : Singleton<GameManager>
 {
     
-    private int CurrentLevel;
+    public int CurrentLevel;
     
 
     private void Start()
@@ -20,17 +20,17 @@ public class GameManager : Singleton<GameManager>
         Cursor.visible = true;
         Time.timeScale = 0; 
     }
-    //public void OnGameover()
-    //{
-    //    StopGame();
-    //    PanelGameOver.SetActive(true);
-    //}
+    public void OnGameover()
+    {
+        StopGame();
+        //PanelGameOver.SetActive(true);
+    }
 
-    //public void OnMissionCompleted()
-    //{
-    //    StopGame();
-    //    PanelGameWin.SetActive(true);
-    //}
+    public void OnMissionCompleted()
+    {
+        StopGame();
+        //PanelGameWin.SetActive(true);
+    }
 
 
 }

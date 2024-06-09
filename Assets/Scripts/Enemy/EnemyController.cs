@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] float waypointDwellTime;
     [SerializeField] private Animator anim;
     [SerializeField] private EnemySO enemySO;
+    [SerializeField] private Player PlayerFoot;
 
     [SerializeField] private LightRayCast rayCast;
 
@@ -22,8 +23,7 @@ public class EnemyController : MonoBehaviour
 
     int currentPointIndex;
 
-    public float currentSpeed;
-    public float targetSpeed;
+
     
 
 
@@ -32,16 +32,19 @@ public class EnemyController : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         playerHealth.TakeDamage(damage);
     }
-        
+
     private void Update()
     {
         if (!Detected)
         {
             patrolBehavior();
         }
-  
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("key code F");
+            chasingBehavior();
+        }
     }
-
     private void onAttack(int index)
     {
         if(playerHealth != null)
@@ -69,14 +72,13 @@ public class EnemyController : MonoBehaviour
     {
         if (!Detected)
         {
+            Debug.Log("Key code F");
             Detected = true;
             anim.SetBool("Detected", true);
 
             Debug.Log("AnimDetected play");
 
-
-            currentSpeed = targetSpeed;
-            navMeshAgent.speed = currentSpeed;
+            navMeshAgent.speed += 3;
             Debug.Log("Speed up");
             StartCoroutine(AttackDuration());
         }
@@ -97,10 +99,14 @@ public class EnemyController : MonoBehaviour
 
         Detected = false;
         anim.SetBool("Detected", false);
-        currentSpeed = targetSpeed;
-        navMeshAgent.speed = currentSpeed;
+        navMeshAgent.speed = 1f;
         
     }
-    
+    public void OnEnemyDie()
+    {
+        enabled = false;
+        navMeshAgent.isStopped = true;
+    }
+
 
 }
