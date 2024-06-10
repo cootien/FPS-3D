@@ -20,7 +20,7 @@ namespace Test // adding namespace to separate between Character Controller of U
 
         public float WalkSpeedMax;
         public int damage;
-        public Collider enemy;
+        private Collider enemy;
 
         private float currentSpeed;
         public float rotateSpeed;
@@ -83,13 +83,10 @@ namespace Test // adding namespace to separate between Character Controller of U
 
             if (Input.GetKeyDown(KeyCode.X))
             {
-                Debug.Log("Keycode X");
                 IsAttack = true;
                 currentSpeed = 0;
                 playerAttack.StartAttack();
                 playerAttack.DeliverDamage(enemy);
-
-
             }
             if (Input.GetKeyUp(KeyCode.X))
             {
@@ -127,8 +124,7 @@ namespace Test // adding namespace to separate between Character Controller of U
 
         private void OnCollisionEnter(Collision collision)
         {
-            Debug.Log("OnCollisionEnter enemy");
-            if (collision.gameObject.CompareTag("Enemy") &&  IsAttack)
+            if (collision.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log("enemy = collider");
                 enemy = collision.collider;

@@ -6,6 +6,7 @@ public class EnemyHealth : Health
 {
     [SerializeField] private EnemySO EnemySO;
     [SerializeField] private EnemyController enemyController;
+
     protected override void Start()
     {
         base.Start();

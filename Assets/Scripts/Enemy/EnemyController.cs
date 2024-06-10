@@ -24,13 +24,9 @@ public class EnemyController : MonoBehaviour
     int currentPointIndex;
 
 
-    
-
-
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        playerHealth.TakeDamage(damage);
     }
 
     private void Update()
@@ -38,11 +34,6 @@ public class EnemyController : MonoBehaviour
         if (!Detected)
         {
             patrolBehavior();
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Debug.Log("key code F");
-            chasingBehavior();
         }
     }
     private void onAttack(int index)
@@ -72,34 +63,11 @@ public class EnemyController : MonoBehaviour
     {
         if (!Detected)
         {
-            Debug.Log("Key code F");
             Detected = true;
             anim.SetBool("Detected", true);
 
-            Debug.Log("AnimDetected play");
-
             navMeshAgent.speed += 3;
-            Debug.Log("Speed up");
-            StartCoroutine(AttackDuration());
         }
-        
-    }
-
-    private IEnumerator AttackDuration()
-    {
-        float duration = 5f;
-        while (duration > 0)
-        {
-            duration -= Time.deltaTime;
-            navMeshAgent.SetDestination(Player.Instance.PlayerFoot.transform.position);
-
-            transform.LookAt(Player.Instance.PlayerFoot.transform.position);
-            yield return null;
-        }
-
-        Detected = false;
-        anim.SetBool("Detected", false);
-        navMeshAgent.speed = 1f;
         
     }
     public void OnEnemyDie()
@@ -107,6 +75,5 @@ public class EnemyController : MonoBehaviour
         enabled = false;
         navMeshAgent.isStopped = true;
     }
-
 
 }
