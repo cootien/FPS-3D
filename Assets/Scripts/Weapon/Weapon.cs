@@ -4,16 +4,64 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-   
+    public int damage;
 
-    public void Interact()
+    public AudioSource StabbingSound;
+    private GameObject hitMarkerPrefab;
+
+    private void Start()
     {
-        var outline = gameObject.GetComponent<Outline>();
+        Debug.Log("=== weapon start");
 
-        if (outline != null)
+    }
+    private void Update()
+    {
+        Debug.Log("=== weapon update");
+    }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    Debug.Log("==== weapon");
+    //    ShowHitEffect(collision.collider);
+
+    //    if (collision.gameObject.CompareTag("Enemy"))
+    //    {
+    //        Debug.Log("=======Blood");
+    //        DeliverDamage(collision.collider);
+    //    }
+    //}
+    private void OnTriggerEnter(Collider collider)
+    {
+        Debug.Log("==== weapon");
+        ShowHitEffect(collider);
+
+        if (collider.CompareTag("Enemy"))
         {
-            outline.enabled = true;
+            Debug.Log("=======Blood");
+            DeliverDamage(collider);
         }
     }
- 
+
+    public void DeliverDamage(Collider enemy)
+    {
+        Health health = enemy.GetComponentInParent<Health>();
+        StabbingSound.Play();
+        if (health != null)
+        {
+            Debug.Log("Deliver Damage");
+            health.TakeDamage(damage);
+        }
+    }
+
+    private void ShowHitEffect(Collider collider)
+    {
+        if (collider == null) return;
+        HitSurface hitSurface = collider.GetComponent<HitSurface>();
+        var effectRotation = Quaternion.LookRotation(collider.transform.forward);
+
+        hitMarkerPrefab = HitEffectManager.Instance.effectMap[(int)hitSurface.surfaceType].effectPrefab;
+       
+        Instantiate(hitMarkerPrefab, collider.transform.position, effectRotation);
+    }
+
 }

@@ -9,7 +9,6 @@ namespace Test // adding namespace to separate between Character Controller of U
     {
         [SerializeField] private Animator animator;
         [SerializeField] private Rigidbody rigibody;
-        [SerializeField] private PlayerAttack playerAttack;
 
 
         private bool IsWalkForward;
@@ -85,13 +84,13 @@ namespace Test // adding namespace to separate between Character Controller of U
             {
                 IsAttack = true;
                 currentSpeed = 0;
-                playerAttack.StartAttack();
-                playerAttack.DeliverDamage(enemy);
+                PlayerAttack.Instance.StartAttack();
             }
             if (Input.GetKeyUp(KeyCode.X))
             {
                 IsAttack = false;
-                playerAttack.StopAttack();
+                PlayerAttack.Instance.StopAttack();
+
             }
 
             float mouseX = Input.GetAxis("Mouse X");
@@ -122,19 +121,6 @@ namespace Test // adding namespace to separate between Character Controller of U
             rigibody.velocity = Vector3.zero;
         }
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (collision.gameObject.CompareTag("Enemy"))
-            {
-                Debug.Log("enemy = collider");
-                enemy = collision.collider;
-            }
-        }
-        private void OnCollisionExit(Collision collision)
-        {
-            Debug.Log("OnCollisionExit enemy");
-            enemy = null;
-        }
     }
 }
 
