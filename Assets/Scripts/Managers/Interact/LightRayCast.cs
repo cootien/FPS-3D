@@ -26,7 +26,7 @@ public class LightRayCast : MonoBehaviour
         if (colliders.Length > 0)
         {
             playerDetected.Invoke();
-            Debug.Log("Ontrigger enter player && PlayerDetected Invoked");
+            //Debug.Log("Ontrigger enter player && PlayerDetected Invoked");
         }
     }
 

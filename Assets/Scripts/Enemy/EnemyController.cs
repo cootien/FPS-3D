@@ -18,7 +18,7 @@ public class EnemyController : MonoBehaviour
     private bool IsPatrol;
     private bool Detected;
 
-    public Health playerHealth;
+    //public Health playerHealth;
     public int damage;
 
     int currentPointIndex;
@@ -36,13 +36,13 @@ public class EnemyController : MonoBehaviour
             patrolBehavior();
         }
     }
-    private void onAttack(int index)
-    {
-        if(playerHealth != null)
-        {
-            playerHealth.TakeDamage(damage);
-        }
-    }
+    //private void onAttack(int index)
+    //{
+    //    if(playerHealth != null)
+    //    {
+    //        playerHealth.TakeDamage(damage);
+    //    }
+    //}
 
     private void patrolBehavior()
     {
@@ -72,6 +72,7 @@ public class EnemyController : MonoBehaviour
     }
     public void OnEnemyDie()
     {
+        Debug.Log("===Enemy Die");
         enabled = false;
         navMeshAgent.isStopped = true;
     }
