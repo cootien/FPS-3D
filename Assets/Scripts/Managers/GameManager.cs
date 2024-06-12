@@ -5,7 +5,9 @@ using Cinemachine;
 
 public class GameManager : Singleton<GameManager>
 {
-    
+    [SerializeField] private GameObject PausePanel;
+    [SerializeField] private GameObject PanelGameOver;
+    [SerializeField] private GameObject PanelGameWin;
     public int CurrentLevel;
     
 
@@ -13,7 +15,14 @@ public class GameManager : Singleton<GameManager>
     {
         CurrentLevel = 1; 
     }
-    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();
+        }
+    }
+
     private void StopGame()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -23,14 +32,24 @@ public class GameManager : Singleton<GameManager>
     public void OnGameover()
     {
         StopGame();
-        //PanelGameOver.SetActive(true);
+        PanelGameOver.SetActive(true);
     }
 
     public void OnMissionCompleted()
     {
         StopGame();
-        //PanelGameWin.SetActive(true);
+        PanelGameWin.SetActive(true);
     }
 
+    public void Pause()
+    {
+        PausePanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+    public void Continue()
+    {
+        PausePanel.SetActive(false);
+        Time.timeScale = 1;
+    }
 
 }

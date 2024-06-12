@@ -15,11 +15,11 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField] private LightRayCast rayCast;
 
-    private bool IsPatrol;
+    //private bool IsPatrol;
     private bool Detected;
 
     //public Health playerHealth;
-    public int damage;
+    //public int damage;
 
     int currentPointIndex;
 
