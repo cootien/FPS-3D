@@ -31,7 +31,7 @@ public class Weapon : MonoBehaviour
         StabbingSound.Play();
         if (health != null)
         {
-            Debug.Log("Deliver Damage");
+            //Debug.Log("Deliver Damage");
             health.TakeDamage(damage);
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : Singleton<EnemyController>
 {
     private NavMeshAgent navMeshAgent;
     [SerializeField] PatrolPoints patrolPoints;
@@ -15,11 +15,13 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField] private LightRayCast rayCast;
 
-    //private bool IsPatrol;
+    private bool IsPatrol;
     private bool Detected;
+    private bool IsAttacked;
 
-    //public Health playerHealth;
-    //public int damage;
+
+    public Health playerHealth;
+    public int damage;
 
     int currentPointIndex;
 
@@ -38,7 +40,7 @@ public class EnemyController : MonoBehaviour
     }
     //private void onAttack(int index)
     //{
-    //    if(playerHealth != null)
+    //    if (playerHealth != null)
     //    {
     //        playerHealth.TakeDamage(damage);
     //    }
@@ -53,28 +55,57 @@ public class EnemyController : MonoBehaviour
         if (distanceToWaypoint > 1f)
         {
             navMeshAgent.SetDestination(patrolPoints.GetPointPosition(currentPointIndex));
+            //Debug.Log($"===distanceToWaypoint - SetDestination : {currentPointIndex}");
+
         }
         else
         {
             currentPointIndex = patrolPoints.getNextPointIndex(currentPointIndex);
+            //Debug.Log($"===patrolBehavior - currentPointIndex: {currentPointIndex}");
+
         }
     }
-    public void chasingBehavior()
+
+
+    public void RunawayBehavior()
     {
-        if (!Detected)
+        if (!IsAttacked)
         {
-            Detected = true;
+            IsAttacked = true;
             anim.SetBool("Detected", true);
 
             navMeshAgent.speed += 3;
         }
-        
+
     }
+    //public void chasingBehavior()
+    //{
+    //    if (!Detected)
+    //    {
+    //        Detected = true;
+    //        anim.SetBool("Detected", true);
+
+    //        navMeshAgent.speed += 3;
+    //    }
+
+    //}
     public void OnEnemyDie()
     {
         Debug.Log("===Enemy Die");
+       
+        navMeshAgent.enabled = false;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+        //Debug.Log($"Die speed: {navMeshAgent.speed}");
+
         enabled = false;
-        navMeshAgent.isStopped = true;
     }
 
 }

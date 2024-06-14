@@ -13,8 +13,8 @@ public class HealthBar : MonoBehaviour
     public void UpdateUI(int currentHP, int maxHP)
     {
         _target = (float)currentHP / (float)maxHP;
-        Debug.Log($"===Curret HP -updateUI: { currentHP}");
-        Debug.Log($"===Max HP -updateUI: { maxHP}");
+        //Debug.Log($"===Curret HP -updateUI: { currentHP}");
+        //Debug.Log($"===Max HP -updateUI: { maxHP}");
 
         imgHealth.fillAmount = Mathf.MoveTowards(imgHealth.fillAmount, _target, reduceSpeed * Time.deltaTime);
 

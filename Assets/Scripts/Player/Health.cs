@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class Health : MonoBehaviour
@@ -29,6 +30,7 @@ public class Health : MonoBehaviour
     {
         _healthPoint = MaxHP;
     }
+
     public void TakeDamage(int damage)
     {
         if (IsDead) return;
@@ -40,10 +42,14 @@ public class Health : MonoBehaviour
     }
     protected virtual void Die()
     {
+        Debug.Log("===enter Die - Health");
         if (anim != null)
         {
+            
             anim.SetTrigger("Die");
+            Debug.Log("===Set trigger Die");
         }
         onDie.Invoke();
+        Debug.Log("===On die.Invoke");
     }
 }

@@ -25,6 +25,8 @@ public class GameManager : Singleton<GameManager>
 
     private void StopGame()
     {
+        Debug.Log("===enter Stop game");
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Time.timeScale = 0; 
@@ -37,6 +39,8 @@ public class GameManager : Singleton<GameManager>
 
     public void OnMissionCompleted()
     {
+        Debug.Log("===enter On Mission Completed");
+
         StopGame();
         PanelGameWin.SetActive(true);
     }
