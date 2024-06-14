@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: MissionSO
   m_EditorClassIdentifier: 
   listMission:
-  - NumKill: 0
+  - NumKill: 1
