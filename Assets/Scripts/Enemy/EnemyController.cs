@@ -18,6 +18,10 @@ public class EnemyController : Singleton<EnemyController>
     private bool IsPatrol;
     private bool Detected;
     private bool IsAttacked;
+    private bool IsDead;
+
+
+    //public float attackTime = 5f;
 
 
     public Health playerHealth;
@@ -33,21 +37,16 @@ public class EnemyController : Singleton<EnemyController>
 
     private void Update()
     {
-        if (!Detected)
-        {
-            patrolBehavior();
-        }
+    
+        patrolBehavior();
+      
     }
-    //private void onAttack(int index)
-    //{
-    //    if (playerHealth != null)
-    //    {
-    //        playerHealth.TakeDamage(damage);
-    //    }
-    //}
+    
 
-    private void patrolBehavior()
+    public void patrolBehavior()
     {
+        if (IsDead) return;
+
         float distanceToWaypoint = Vector3.Distance(transform.position, patrolPoints.GetPointPosition(currentPointIndex));
 
         transform.LookAt(patrolPoints.GetPointPosition(currentPointIndex));
@@ -61,38 +60,44 @@ public class EnemyController : Singleton<EnemyController>
         else
         {
             currentPointIndex = patrolPoints.getNextPointIndex(currentPointIndex);
-            //Debug.Log($"===patrolBehavior - currentPointIndex: {currentPointIndex}");
+            //Debug.Log($"===patrolBehavior - getNextPointIndex: {currentPointIndex}");
 
         }
     }
 
 
-    public void RunawayBehavior()
+    public void OnPlayerDetected()
     {
-        if (!IsAttacked)
-        {
-            IsAttacked = true;
-            anim.SetBool("Detected", true);
+        Detected = true;
+        anim.SetBool("Detected", true);
 
-            navMeshAgent.speed += 3;
-        }
+        Debug.Log("===Enemy enter OnPlayerDetected");
+        navMeshAgent.speed = 2f;
+        StartCoroutine(attackTimeDelay());
+
+        Debug.Log($"===Enemy speed : {navMeshAgent.speed}");
 
     }
-    //public void chasingBehavior()
-    //{
-    //    if (!Detected)
-    //    {
-    //        Detected = true;
-    //        anim.SetBool("Detected", true);
 
-    //        navMeshAgent.speed += 3;
-    //    }
+    public void OnPlayerUndected()
+    {
+        //Debug.Log("===Enemy enter OnPlayerUndected");
 
-    //}
-    public void OnEnemyDie()
+        Detected = false;
+        anim.SetBool("Detected", false);
+
+        navMeshAgent.speed = 1f;
+        //Debug.Log($"===Enemy speed : {navMeshAgent.speed}");
+
+    }
+ 
+    public void OnDie()
     {
         Debug.Log("===Enemy Die");
-       
+        Detected = false;
+        IsDead = true;
+        EnemyManager.Instance.OnEnemyDie(gameObject.transform);
+
         navMeshAgent.enabled = false;
 
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -103,9 +108,29 @@ public class EnemyController : Singleton<EnemyController>
             rb.constraints = RigidbodyConstraints.FreezeAll;
         }
 
-        //Debug.Log($"Die speed: {navMeshAgent.speed}");
-
         enabled = false;
     }
+
+    public void OnTeamEnemyDie(Transform enemyDiePos)
+    {
+        //Debug.Log($"===OnTeamEnemyDie {enemyDiePos.position.x},{enemyDiePos.position.z}");
+        if(Vector3.Distance(enemyDiePos.position,gameObject.transform.position) > 10f)
+        {
+            Debug.Log("===Enemy receive message TeamMember die");
+
+        }
+    }
+
+
+
+    private IEnumerator attackTimeDelay()
+    {
+        yield return new WaitForSeconds(2f); // Wait for 3 seconds
+        patrolBehavior();
+
+        //Debug.Log($"===End of attackTimeDelay");
+
+    }
+
 
 }

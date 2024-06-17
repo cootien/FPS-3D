@@ -33,6 +33,8 @@ public class GameManager : Singleton<GameManager>
     }
     public void OnGameover()
     {
+        //StartCoroutine(ScreenDelay());
+
         StopGame();
         PanelGameOver.SetActive(true);
     }
@@ -40,6 +42,7 @@ public class GameManager : Singleton<GameManager>
     public void OnMissionCompleted()
     {
         Debug.Log("===enter On Mission Completed");
+        StartCoroutine(ScreenDelay());
 
         StopGame();
         PanelGameWin.SetActive(true);
@@ -54,6 +57,12 @@ public class GameManager : Singleton<GameManager>
     {
         PausePanel.SetActive(false);
         Time.timeScale = 1;
+    }
+
+    private IEnumerator ScreenDelay()
+    {
+        yield return new WaitForSeconds(2f); 
+
     }
 
 }

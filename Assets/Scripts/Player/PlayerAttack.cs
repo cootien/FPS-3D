@@ -48,7 +48,6 @@ public class PlayerAttack : Singleton<PlayerAttack>
             if (collider.CompareTag("Enemy"))
             {
                 weapon.DeliverDamage(collider);
-                //Debug.Log("=======Blood");
             }
         }
     }

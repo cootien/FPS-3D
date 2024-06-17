@@ -35,7 +35,7 @@ public class MissionManager : Singleton<MissionManager>
     public void OnEnemyKilled()
     {
         currentKill++;
-        Debug.Log($"===OnEnemyKilled - currentKill: {currentKill}");
+        //Debug.Log($"===OnEnemyKilled - currentKill: {currentKill}");
 
 
         //textMission.text = $"Kill {requiredKill} zombie" + $" - Current Kill : {currentKill}";
@@ -49,18 +49,18 @@ public class MissionManager : Singleton<MissionManager>
     }
     private void InitMisson()
     {
-        Debug.Log("===enter InitMisson");
+        //Debug.Log("===enter InitMisson");
 
         var index = GameManager.Instance.CurrentLevel - 1;
         var numKillMission = missionSO.listMission[index].NumKill;
         requiredKill = numKillMission;
-        Debug.Log($"===requiredKill: {requiredKill}");
+        //Debug.Log($"===requiredKill: {requiredKill}");
 
     }
     bool IsCompletedMission()
     {
         bool isCompleted = currentKill >= requiredKill;
-        Debug.Log($"===IscompletedMission: {isCompleted}");
+        //Debug.Log($"===IscompletedMission: {isCompleted}");
         return isCompleted;
     }
     //bool IsCompletedMission()

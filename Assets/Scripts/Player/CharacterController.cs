@@ -13,6 +13,10 @@ namespace Test // adding namespace to separate between Character Controller of U
 
         private bool IsWalkForward;
         private bool IsWalkBack;
+        private bool IsWalkLeft;
+        private bool IsWalkRight;
+
+
         private bool IsAttack;
 
         private float _targetRotationY;
@@ -34,6 +38,7 @@ namespace Test // adding namespace to separate between Character Controller of U
 
         void Update()
         {
+            // IsWalkForward
             if (Input.GetKeyDown(KeyCode.W))
             {
                 CameraSwitcher.Instance.PrimaryCam();
@@ -64,7 +69,9 @@ namespace Test // adding namespace to separate between Character Controller of U
                 StopMove();
             }
 
-            if (Input.GetKey(KeyCode.S))
+            // IsWalkBack
+
+            if (Input.GetKeyDown(KeyCode.S))
             {
                 IsWalkBack = true;
                 currentSpeed = WalkSpeedMax;
@@ -80,6 +87,40 @@ namespace Test // adding namespace to separate between Character Controller of U
                 StopMove();
             }
 
+            // IsWalkLeft
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                IsWalkLeft = true;
+                currentSpeed = WalkSpeedMax;
+                WalkForward();
+                animator.SetBool("IsWalkLeft", true);
+
+            }
+
+            if (Input.GetKeyUp(KeyCode.A))
+            {
+                animator.SetBool("IsWalkLeft", false);
+
+                StopMove();
+            }
+            // IsWalkRight
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                IsWalkRight = true;
+                currentSpeed = WalkSpeedMax;
+                WalkForward();
+                animator.SetBool("IsWalkRight", true);
+
+            }
+
+            if (Input.GetKeyUp(KeyCode.D))
+            {
+                animator.SetBool("IsWalkRight", false);
+
+                StopMove();
+            }
+
+            //IsAttack
             if (Input.GetKeyDown(KeyCode.X))
             {
                 IsAttack = true;
@@ -92,6 +133,7 @@ namespace Test // adding namespace to separate between Character Controller of U
                 PlayerAttack.Instance.StopAttack();
 
             }
+           
 
             float mouseX = Input.GetAxis("Mouse X");
             transform.Rotate(new Vector3(0, mouseX * rotateSpeed, 0));
