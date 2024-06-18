@@ -523,8 +523,8 @@ GameObject:
   - component: {fileID: 97224974}
   - component: {fileID: 97224977}
   - component: {fileID: 97224976}
-  - component: {fileID: 97224972}
   - component: {fileID: 97224973}
+  - component: {fileID: 97224979}
   m_Layer: 0
   m_Name: Remy (2)
   m_TagString: Enemy
@@ -557,27 +557,6 @@ Transform:
   - {fileID: 856646960}
   m_Father: {fileID: 1320769651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &97224972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 97224970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1bcfde11a64049d89d92ddc5d411c74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsDontDestroyOnload: 0
-  patrolPoints: {fileID: 769003107}
-  waypointDwellTime: 0
-  anim: {fileID: 97224974}
-  enemySO: {fileID: 11400000, guid: f0b0b0dab2e514df9ad6115903a0cfcf, type: 2}
-  PlayerFoot: {fileID: 1464331501}
-  rayCast: {fileID: 0}
-  playerHealth: {fileID: 0}
-  damage: 0
 --- !u!114 &97224973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,8 +572,8 @@ MonoBehaviour:
   onDie:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 97224972}
-        m_TargetAssemblyTypeName: EnemyController, Assembly-CSharp
+      - m_Target: {fileID: 97224979}
+        m_TargetAssemblyTypeName: EnemyController1, Assembly-CSharp
         m_MethodName: OnDie
         m_Mode: 1
         m_Arguments:
@@ -720,6 +699,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &97224979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97224970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f220a7a1907429aa9e848779673abb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsDontDestroyOnload: 0
+  patrolPoints: {fileID: 769003107}
+  waypointDwellTime: 0
+  anim: {fileID: 97224974}
+  enemySO: {fileID: 11400000, guid: f0b0b0dab2e514df9ad6115903a0cfcf, type: 2}
+  rayCast: {fileID: 0}
+  IsDead: 0
+  damage: 0
 --- !u!1 &121539463
 GameObject:
   m_ObjectHideFlags: 0
@@ -4490,22 +4489,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78664ab95ae1c4c2295abbfcfc95d4de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDontDestroyOnload: 0
-  onTeamMemberDie:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 97224972}
-        m_TargetAssemblyTypeName: EnemyController, Assembly-CSharp
-        m_MethodName: OnTeamEnemyDie
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!4 &556625048
 Transform:
   m_ObjectHideFlags: 0
@@ -5718,8 +5701,8 @@ GameObject:
   - component: {fileID: 720830215}
   - component: {fileID: 720830218}
   - component: {fileID: 720830217}
-  - component: {fileID: 720830214}
   - component: {fileID: 720830216}
+  - component: {fileID: 720830220}
   m_Layer: 0
   m_Name: Remy (3)
   m_TagString: Enemy
@@ -5752,27 +5735,6 @@ Transform:
   - {fileID: 303059358}
   m_Father: {fileID: 1320769651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &720830214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 720830212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1bcfde11a64049d89d92ddc5d411c74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsDontDestroyOnload: 0
-  patrolPoints: {fileID: 1902241099}
-  waypointDwellTime: 0
-  anim: {fileID: 720830215}
-  enemySO: {fileID: 11400000, guid: f0b0b0dab2e514df9ad6115903a0cfcf, type: 2}
-  PlayerFoot: {fileID: 1464331501}
-  rayCast: {fileID: 0}
-  playerHealth: {fileID: 0}
-  damage: 0
 --- !u!95 &720830215
 Animator:
   serializedVersion: 5
@@ -5809,8 +5771,8 @@ MonoBehaviour:
   onDie:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 720830214}
-        m_TargetAssemblyTypeName: EnemyController, Assembly-CSharp
+      - m_Target: {fileID: 720830220}
+        m_TargetAssemblyTypeName: EnemyController1, Assembly-CSharp
         m_MethodName: OnDie
         m_Mode: 1
         m_Arguments:
@@ -5915,6 +5877,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &720830220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720830212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f220a7a1907429aa9e848779673abb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsDontDestroyOnload: 0
+  patrolPoints: {fileID: 1902241099}
+  waypointDwellTime: 0
+  anim: {fileID: 720830215}
+  enemySO: {fileID: 11400000, guid: f0b0b0dab2e514df9ad6115903a0cfcf, type: 2}
+  rayCast: {fileID: 0}
+  IsDead: 0
+  damage: 0
 --- !u!1 &722482871
 GameObject:
   m_ObjectHideFlags: 0
@@ -8123,11 +8105,11 @@ PrefabInstance:
     - target: {fileID: 770939242071265643, guid: 02c7a16b11f7845199a47e39790bddb7, type: 3}
       propertyPath: playerDetected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 97224972}
+      objectReference: {fileID: 0}
     - target: {fileID: 770939242071265643, guid: 02c7a16b11f7845199a47e39790bddb7, type: 3}
       propertyPath: playerDetected.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 97224972}
+      objectReference: {fileID: 0}
     - target: {fileID: 770939242071265643, guid: 02c7a16b11f7845199a47e39790bddb7, type: 3}
       propertyPath: playerUndetected.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
@@ -8135,7 +8117,7 @@ PrefabInstance:
     - target: {fileID: 770939242071265643, guid: 02c7a16b11f7845199a47e39790bddb7, type: 3}
       propertyPath: playerUndetected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 97224972}
+      objectReference: {fileID: 0}
     - target: {fileID: 770939242071265643, guid: 02c7a16b11f7845199a47e39790bddb7, type: 3}
       propertyPath: playerDetected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -8283,11 +8265,11 @@ PrefabInstance:
     - target: {fileID: 770939242071265643, guid: 02c7a16b11f7845199a47e39790bddb7, type: 3}
       propertyPath: playerDetected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 720830214}
+      objectReference: {fileID: 0}
     - target: {fileID: 770939242071265643, guid: 02c7a16b11f7845199a47e39790bddb7, type: 3}
       propertyPath: playerDetected.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 720830214}
+      objectReference: {fileID: 0}
     - target: {fileID: 770939242071265643, guid: 02c7a16b11f7845199a47e39790bddb7, type: 3}
       propertyPath: playerUndetected.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
@@ -8295,7 +8277,7 @@ PrefabInstance:
     - target: {fileID: 770939242071265643, guid: 02c7a16b11f7845199a47e39790bddb7, type: 3}
       propertyPath: playerUndetected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 720830214}
+      objectReference: {fileID: 0}
     - target: {fileID: 770939242071265643, guid: 02c7a16b11f7845199a47e39790bddb7, type: 3}
       propertyPath: playerDetected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -12053,7 +12035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: 1464331485}
-  movingSpeed: 5
+  movingSpeed: 7
   jumpPower: 2
 --- !u!114 &1464331499
 MonoBehaviour:

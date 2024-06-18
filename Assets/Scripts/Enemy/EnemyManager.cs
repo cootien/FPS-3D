@@ -1,18 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
-public class EnemyManager : Singleton<EnemyManager>
+public class EnemyManager : MonoBehaviour
 {
-    public UnityEvent<Transform> onTeamMemberDie;
+    public static EnemyManager Instance { get; private set; }
 
-
-    public void OnEnemyDie(Transform enemyDiePos)
+    void Awake()
     {
-        Debug.Log("===EnemyManager enter OnEnemyDie");
-
-        onTeamMemberDie.Invoke(enemyDiePos);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-    
+
+    public delegate void EnemyDeathAction(Vector3 position);
+    public static event EnemyDeathAction OnEnemyDeath;
+
+    // Method to call the event with position
+    public void EnemyDied(Vector3 deathPosition)
+    {
+        if (OnEnemyDeath != null)
+            OnEnemyDeath(deathPosition);
+    }
 }
+

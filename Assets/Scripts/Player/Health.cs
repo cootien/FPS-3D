@@ -42,14 +42,11 @@ public class Health : MonoBehaviour
     }
     protected virtual void Die()
     {
-        Debug.Log("===enter Die - Health");
         if (anim != null)
-        {
-            
+        {   
             anim.SetTrigger("Die");
             Debug.Log("===Set trigger Die");
         }
         onDie.Invoke();
-        Debug.Log("===On die.Invoke");
     }
 }
