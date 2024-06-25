@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine; 
+using Cinemachine;
+using UnityEngine.Video;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -9,17 +10,28 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject PanelGameOver;
     [SerializeField] private GameObject PanelGameWin;
     public int CurrentLevel;
-    
+
+    private bool isPaused = false;
+    public VideoPlayer pausePanelVideoPlayer;
 
     private void Start()
     {
-        CurrentLevel = 1; 
+        CurrentLevel = 1;
+        pausePanelVideoPlayer = PausePanel.GetComponent<VideoPlayer>();
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Pause();
+            if (pausePanelVideoPlayer.isPlaying)
+            {
+                Continue();
+            }
+            else
+            {
+                Pause();
+            }
+  
         }
     }
 
@@ -51,6 +63,8 @@ public class GameManager : Singleton<GameManager>
     public void Pause()
     {
         PausePanel.SetActive(true);
+        pausePanelVideoPlayer.Play();
+        Debug.Log($"pause vid play: {pausePanelVideoPlayer.isPlaying}");
         Time.timeScale = 0;
     }
     public void Continue()
