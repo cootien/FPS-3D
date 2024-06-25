@@ -62,6 +62,8 @@ public class GameManager : Singleton<GameManager>
 
     public void Pause()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         PausePanel.SetActive(true);
         pausePanelVideoPlayer.Play();
         Debug.Log($"pause vid play: {pausePanelVideoPlayer.isPlaying}");

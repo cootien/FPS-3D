@@ -6,193 +6,176 @@ using UnityEngine.Events;
 
 public class EnemyController : Singleton<EnemyController>
 {
-    //private NavMeshAgent navMeshAgent;
-    //[SerializeField] PatrolPoints patrolPoints;
-    //[SerializeField] float waypointDwellTime;
-    //[SerializeField] private Animator anim;
-    //[SerializeField] private EnemySO enemySO;
-    ////[SerializeField] private Player PlayerFoot;
+    private NavMeshAgent navMeshAgent;
+    [SerializeField] PatrolPoints patrolPoints;
+    [SerializeField] float waypointDwellTime;
+    [SerializeField] private Animator anim;
+    [SerializeField] private EnemySO enemySO;
 
-    //[SerializeField] private LightRayCast rayCast;
+    [SerializeField] private LightRayCast rayCast;
 
-    //private bool IsPatrol;
-    //private bool Detected;
-    //private bool IsAttacked;
-    //private bool IsDead;
-    //private float idleTimer;
+    private bool Detected;
+    public bool IsDead;
+    private bool IsIdle;
 
 
-    ////public float attackTime = 5f;
+    public int damage;
+
+    int currentPointIndex;
+    int lastPointIndex;
 
 
-    ////public Health playerHealth;
-    //public int damage;
+    private void Awake()
+    {
+        navMeshAgent = GetComponent<NavMeshAgent>();
+    }
 
-    //int currentPointIndex;
+    private void Update()
+    {
 
+        patrolBehavior();
 
-    //private void Awake()
-    //{
-    //    navMeshAgent = GetComponent<NavMeshAgent>();
-    //}
+    }
+    public void patrolBehavior()
+    {
+        Debug.Log($"patrol called: {IsDead}, {IsIdle}");
 
-    //private void Update()
-    //{
+        if (IsDead) return;
+        if (IsIdle) return;
 
-    //    patrolBehavior();
+        float distanceToWaypoint = Vector3.Distance(transform.position, patrolPoints.GetPointPosition(currentPointIndex));
 
-    //}
+        transform.LookAt(patrolPoints.GetPointPosition(currentPointIndex));
 
+        if (distanceToWaypoint > 1f)
+        {
+    
+            navMeshAgent.SetDestination(patrolPoints.GetPointPosition(currentPointIndex));
 
-    //public void patrolBehavior()
-    //{
-    //    if (IsDead) return;
+        }
+        else
+        {
+            Debug.Log("Calling on Idle");
+            OnIdle();
 
-    //    float distanceToWaypoint = Vector3.Distance(transform.position, patrolPoints.GetPointPosition(currentPointIndex));
+            currentPointIndex = patrolPoints.getNextPointIndex(currentPointIndex);
+            Debug.Log($"scurrent position set");
+        }
+    }
+    //IDLE 
+    public void OnIdle()
+    {
+        Debug.Log("Ennter on Idle");
 
-    //    transform.LookAt(patrolPoints.GetPointPosition(currentPointIndex));
+        IsIdle = true;
+        Debug.Log("Ennter on Idle 1");
 
-    //    if (distanceToWaypoint > 1f)
-    //    {
-    //        navMeshAgent.SetDestination(patrolPoints.GetPointPosition(currentPointIndex));
-    //        //Debug.Log($"===distanceToWaypoint - SetDestination : {currentPointIndex}");
-
-    //    }
-    //    else
-    //    {
-    //        currentPointIndex = patrolPoints.getNextPointIndex(currentPointIndex);
-    //        //Debug.Log($"===patrolBehavior - getNextPointIndex: {currentPointIndex}");
-
-    //    }
-    //}
-    ////public void idleBehavior()
-    ////{
-
-    ////}
-    ////public void beAttacked()
-    ////{
-
-    ////}
-
-    //public void OnPlayerDetected()
-    //{
-    //    Detected = true;
-    //    anim.SetBool("Detected", true);
-
-    //    Debug.Log("===Enemy enter OnPlayerDetected");
-    //    navMeshAgent.speed = 2f;
-
-    //    StartCoroutine(attackTimeDelay());
-
-    //    patrolBehavior();
-    //    //Debug.Log($"===Enemy speed : {navMeshAgent.speed}");
-
-    //}
-
-    //public void OnPlayerUndected()
-    //{
-    //    //Debug.Log("===Enemy enter OnPlayerUndected");
-
-    //    Detected = false;
-    //    anim.SetBool("Detected", false);
-
-    //    navMeshAgent.speed = 1f;
-    //    //Debug.Log($"===Enemy speed : {navMeshAgent.speed}");
-
-    //}
-
-    //public void OnDie()
-    //{
-    //    //Debug.Log("===Enemy Die");
-    //    Detected = false;
-    //    IsDead = true;
-    //    //OnTeamEnemyDie(gameObject.transform.position);
-
-    //    navMeshAgent.enabled = false;
-
-    //    Rigidbody rb = GetComponent<Rigidbody>();
-    //    if (rb != null)
-    //    {
-    //        rb.velocity = Vector3.zero;
-    //        rb.angularVelocity = Vector3.zero;
-    //        rb.constraints = RigidbodyConstraints.FreezeAll;
-    //    }
-    //    OnTeamEnemyDie(gameObject.transform.position);
-
-    //    enabled = false;
-    //}
-
-    //public void OnTeamEnemyDie(Vector3 enemyDiePos)
-    //{
-    //    //Debug.Log($"===OnTeamEnemyDie {enemyDiePos.position.x},{enemyDiePos.position.z}");
-    //    if(Vector3.Distance(enemyDiePos,gameObject.transform.position) > 100f)
-    //    {
-    //        //float distanceToWaypoint = Vector3.Distance(transform.position, enemyDiePos);
-
-    //        transform.LookAt(enemyDiePos);
-    //        navMeshAgent.SetDestination(enemyDiePos);
-
-    //        Debug.Log($"===Team member in < 30f");
+        anim.SetBool("Idle", true);
+        Debug.Log("Ennter on Idle 2");
 
 
-    //        if (Vector3.Distance(enemyDiePos, gameObject.transform.position) < 1f)
-    //        {
-    //            StartCoroutine(attackTimeDelay());
-    //            Debug.Log($"===Reached team member die posT");
-    //            patrolBehavior();
-    //        }
-    //    }
-    //}
-    //public void OnTeamEnemyDie(Vector3 enemyDiePos)
-    //{
-    //    // Log the function call for debugging purposes
-    //    Debug.Log($"===OnTeamEnemyDie called with position: {enemyDiePos}");
+        navMeshAgent.speed = 0f;
+        Debug.Log("Ennter on Idle 3");
 
-    //    // Check the distance between the current position and the enemy's death position
-    //    //if (Vector3.Distance(enemyDiePos, transform.position) > 100f)
-    //    //{
-    //        // Look towards the enemy's death position
-    //        transform.LookAt(enemyDiePos);
+    }
+    public void OnIdleFinished()
+    {
+        Debug.Log("Finish on Idle");
 
-    //        // Set the destination of the NavMeshAgent to the enemy's death position
-    //        navMeshAgent.SetDestination(enemyDiePos);
+        IsIdle = false;
+        anim.SetBool("Idle", false);
+        navMeshAgent.speed = 1f;
+        Debug.Log("Ennter on finnishIdle 3");
 
-    //        Debug.Log($"===Team member is within < 100f, moving towards: {enemyDiePos}");
+    }
 
-    //        // Check if the enemy has reached the destination
-    //        if (Vector3.Distance(enemyDiePos, transform.position) < 1f)
-    //        {
-    //            // Start the attack time delay coroutine
-    //            StartCoroutine(AttackTimeDelay());
-    //            Debug.Log($"===Reached team member's death position");
+    public void OnPlayerDetected()
+    {
+        Detected = true;
+        anim.SetBool("Detected", true);
 
-    //            // After reaching the destination, continue patrolling
-    //            patrolBehavior();
-    //        }
-    //    //}
-    //    //else
-    //    //{
-    //    //    Debug.Log($"===Team member is not within < 100f, staying in patrol mode");
-    //    //}
-    //}
+        navMeshAgent.speed = 2f;
 
-    // Example coroutine for attack delay
-    //    private IEnumerator AttackTimeDelay()
-    //    {
-    //        // Wait for the specified delay
-    //        yield return new WaitForSeconds(1.0f); // Adjust the delay as needed
+        StartCoroutine(attackTimeDelay());
 
+        patrolBehavior();
 
+    }
 
-    //    }
+    public void OnPlayerUndected()
+    {
 
-    //        private IEnumerator attackTimeDelay()
-    //    {
-    //        yield return new WaitForSeconds(2f); // Wait for 3 seconds
+        Detected = false;
+        anim.SetBool("Detected", false);
 
-    //        //Debug.Log($"===End of attackTimeDelay");
+        navMeshAgent.speed = 1f;
 
-    //    }
+    }
+    public void OnDie()
+    {
+        Detected = false;
+        IsDead = true;
 
+        navMeshAgent.enabled = false;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+        MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour script in scripts)
+        {
+            if (script != this) // Avoid disabling the OnDie script itself if it's a MonoBehaviour
+            {
+                script.enabled = false;
+            }
+        }
+        enabled = false;
+    }
+
+    public void Gather(Vector3 enemyDiePos)
+    {
+        Debug.Log($"===");
+        if (IsDead) return;
+
+        transform.LookAt(enemyDiePos);
+        navMeshAgent.SetDestination(enemyDiePos);
+
+        if (Vector3.Distance(enemyDiePos, transform.position) < 1f)
+        {
+            StartCoroutine(attackTimeDelay());
+            Debug.Log($"==={gameObject.name} Reached team member's death position");
+
+            patrolBehavior();
+        }
+    }
+
+    private IEnumerator attackTimeDelay()
+    {
+        yield return new WaitForSeconds(2f); // Wait for 3 seconds
+
+        //Debug.Log($"===End of attackTimeDelay");
+
+    }
+    void OnEnable()
+    {
+        EnemyManager.OnEnemyDeath += GatherAndChase;
+    }
+
+    void OnDisable()
+    {
+        EnemyManager.OnEnemyDeath -= GatherAndChase;
+    }
+
+    void GatherAndChase(Vector3 deathPosition)
+    {
+        // Use deathPosition to move towards that point
+        Debug.Log($"=== GatherAndChase");
+
+    }
 
 }

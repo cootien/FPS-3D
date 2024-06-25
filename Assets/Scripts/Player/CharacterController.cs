@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.Audio;
 
 namespace Test // adding namespace to separate between Character Controller of Unity vs self-created
 {
@@ -21,6 +22,7 @@ namespace Test // adding namespace to separate between Character Controller of U
 
         private float _targetRotationY;
 
+        public AudioSource WalkingSound;
         public float WalkSpeedMax;
         public int damage;
         private Collider enemy;
@@ -43,6 +45,8 @@ namespace Test // adding namespace to separate between Character Controller of U
             {
                 CameraSwitcher.Instance.PrimaryCam();
                 IsWalkForward = true;
+                IsWalkBack = false;
+
 
                 if (currentSpeed < WalkSpeedMax)
                 {
@@ -59,8 +63,7 @@ namespace Test // adding namespace to separate between Character Controller of U
             if (IsWalkForward)
             {
                 animator.SetBool("IsWalkForward", true);
-                var t = currentSpeed / WalkSpeedMax;
-                // animator.SetFloat("Speed", t);
+
                 WalkForward();
             }
             else
@@ -73,17 +76,29 @@ namespace Test // adding namespace to separate between Character Controller of U
 
             if (Input.GetKeyDown(KeyCode.S))
             {
+                //WalkingSound.Play();
                 IsWalkBack = true;
-                currentSpeed = WalkSpeedMax;
+                IsWalkForward = false;
                 WalkBack();
-                animator.SetBool("IsWalkBack", true);
 
             }
 
             if (Input.GetKeyUp(KeyCode.S))
             {
-                animator.SetBool("IsWalkBack", false);
+                IsWalkBack = false;
+                currentSpeed = 0;
 
+                StopMove();
+            }
+            if (IsWalkBack)
+            {
+                animator.SetBool("IsWalkBack", true);
+
+                WalkForward();
+            }
+            else
+            {
+                animator.SetBool("IsWalkBack", false);
                 StopMove();
             }
 
@@ -91,32 +106,60 @@ namespace Test // adding namespace to separate between Character Controller of U
             if (Input.GetKeyDown(KeyCode.A))
             {
                 IsWalkLeft = true;
+                IsWalkBack = false;
+                IsWalkForward = false;
+                IsWalkRight = false;
+
                 currentSpeed = WalkSpeedMax;
-                WalkForward();
-                animator.SetBool("IsWalkLeft", true);
 
             }
-
             if (Input.GetKeyUp(KeyCode.A))
             {
-                animator.SetBool("IsWalkLeft", false);
+                IsWalkLeft = false;
 
                 StopMove();
             }
+            if (IsWalkLeft)
+            {
+                animator.SetBool("IsWalkLeft", true);
+                currentSpeed = 0;
+
+                WalkForward();
+            }
+            else
+            {
+                animator.SetBool("IsWalkLeft", false);
+                StopMove();
+            }
+
             // IsWalkRight
             if (Input.GetKeyDown(KeyCode.D))
             {
+                IsWalkLeft = false;
+                IsWalkBack = false;
+                IsWalkForward = false;
                 IsWalkRight = true;
+
                 currentSpeed = WalkSpeedMax;
-                WalkForward();
-                animator.SetBool("IsWalkRight", true);
 
             }
 
             if (Input.GetKeyUp(KeyCode.D))
             {
-                animator.SetBool("IsWalkRight", false);
+                IsWalkRight = false;
 
+                StopMove();
+            }
+            if (IsWalkRight)
+            {
+                animator.SetBool("IsWalkRight", true);
+                currentSpeed = 0;
+
+                WalkForward();
+            }
+            else
+            {
+                animator.SetBool("IsWalkRight", false);
                 StopMove();
             }
 
@@ -142,6 +185,12 @@ namespace Test // adding namespace to separate between Character Controller of U
 
         private void WalkForward()
         {
+            if (!WalkingSound.isPlaying)
+            {
+                WalkingSound.Play();
+            }
+
+            //Debug.Log($"==gbgbt");
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotationY, 0.0f) * Vector3.forward;
 
@@ -151,6 +200,13 @@ namespace Test // adding namespace to separate between Character Controller of U
 
         private void WalkBack()
         {
+            if (!WalkingSound.isPlaying)
+            {
+                WalkingSound.Play();
+            }
+            
+
+            //Debug.Log($"===");
 
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotationY, 0.0f) * Vector3.back;
             rigibody.velocity = targetDirection.normalized * currentSpeed;
@@ -159,6 +215,7 @@ namespace Test // adding namespace to separate between Character Controller of U
 
         private void StopMove()
         {
+            //WalkingSound.Stop();
             rigibody.velocity = new Vector3(0, rigibody.velocity.y, 0);
             rigibody.velocity = Vector3.zero;
         }

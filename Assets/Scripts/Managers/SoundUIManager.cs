@@ -7,20 +7,20 @@ using UnityEngine.Audio;
 
 public class SoundUIManager : MonoBehaviour
 {
-    public Slider  Master, BG, VFX;
+    public Slider  MasterSlider, BGSlider, VFXSlider;
     public AudioMixer mainAudioMixer;
 
     public void ChangeMasterVolume()
     {
-        mainAudioMixer.SetFloat("MasterSound", Master.value);
+        mainAudioMixer.SetFloat("Master", MasterSlider.value); 
     }
     public void ChangeBGVolume()
     {
-        mainAudioMixer.SetFloat("BGMusic", BG.value);
+        mainAudioMixer.SetFloat("BG", BGSlider.value);
     }
     public void ChangeVFXVolume()
     {
-        mainAudioMixer.SetFloat("VFXMusic", VFX.value);
+        mainAudioMixer.SetFloat("VFX", VFXSlider.value);
     }
 
     // Update is called once per frame

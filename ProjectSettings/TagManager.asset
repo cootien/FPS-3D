@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Weapon
   - Enemy
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Obstacle
   - Water
   - UI
   - Player

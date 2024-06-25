@@ -8,140 +8,140 @@ using UnityEngine.Events;
 public class EnemyController1 : Singleton<EnemyController>
 {
 
-    private NavMeshAgent navMeshAgent;
-    [SerializeField] PatrolPoints patrolPoints;
-    [SerializeField] float waypointDwellTime;
-    [SerializeField] private Animator anim;
-    [SerializeField] private EnemySO enemySO;
+    //private NavMeshAgent navMeshAgent;
+    //[SerializeField] PatrolPoints patrolPoints;
+    //[SerializeField] float waypointDwellTime;
+    //[SerializeField] private Animator anim;
+    //[SerializeField] private EnemySO enemySO;
 
-    [SerializeField] private LightRayCast rayCast;
+    //[SerializeField] private LightRayCast rayCast;
 
-    private bool Detected;
-    public bool IsDead;
-
-
-    public int damage;
-
-    int currentPointIndex;
+    //private bool Detected;
+    //public bool IsDead;
 
 
-    private void Awake()
-    {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-    }
+    //public int damage;
 
-    private void Update()
-    {
+    //int currentPointIndex;
 
-        patrolBehavior();
 
-    }
-    public void patrolBehavior()
-    {
-        if (IsDead) return;
+    //private void Awake()
+    //{
+    //    navMeshAgent = GetComponent<NavMeshAgent>();
+    //}
 
-        float distanceToWaypoint = Vector3.Distance(transform.position, patrolPoints.GetPointPosition(currentPointIndex));
+    //private void Update()
+    //{
 
-        transform.LookAt(patrolPoints.GetPointPosition(currentPointIndex));
+    //    patrolBehavior();
 
-        if (distanceToWaypoint > 1f)
-        {
-            navMeshAgent.SetDestination(patrolPoints.GetPointPosition(currentPointIndex));
+    //}
+    //public void patrolBehavior()
+    //{
+    //    if (IsDead) return;
 
-        }
-        else
-        {
-            currentPointIndex = patrolPoints.getNextPointIndex(currentPointIndex);
+    //    float distanceToWaypoint = Vector3.Distance(transform.position, patrolPoints.GetPointPosition(currentPointIndex));
 
-        }
-    }
-    public void OnPlayerDetected()
-    {
-        Detected = true;
-        anim.SetBool("Detected", true);
+    //    transform.LookAt(patrolPoints.GetPointPosition(currentPointIndex));
 
-        navMeshAgent.speed = 2f;
+    //    if (distanceToWaypoint > 1f)
+    //    {
+    //        navMeshAgent.SetDestination(patrolPoints.GetPointPosition(currentPointIndex));
 
-        StartCoroutine(attackTimeDelay());
+    //    }
+    //    else
+    //    {
+    //        currentPointIndex = patrolPoints.getNextPointIndex(currentPointIndex);
 
-        patrolBehavior();
+    //    }
+    //}
+    //public void OnPlayerDetected()
+    //{
+    //    Detected = true;
+    //    anim.SetBool("Detected", true);
 
-    }
+    //    navMeshAgent.speed = 2f;
 
-    public void OnPlayerUndected()
-    {
+    //    StartCoroutine(attackTimeDelay());
 
-        Detected = false;
-        anim.SetBool("Detected", false);
+    //    patrolBehavior();
 
-        navMeshAgent.speed = 1f;
+    //}
 
-    }
-    public void OnDie()
-    {
-        Detected = false;
-        IsDead = true;
+    //public void OnPlayerUndected()
+    //{
 
-        navMeshAgent.enabled = false;
+    //    Detected = false;
+    //    anim.SetBool("Detected", false);
 
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.constraints = RigidbodyConstraints.FreezeAll;
-        }
+    //    navMeshAgent.speed = 1f;
+
+    //}
+    //public void OnDie()
+    //{
+    //    Detected = false;
+    //    IsDead = true;
+
+    //    navMeshAgent.enabled = false;
+
+    //    Rigidbody rb = GetComponent<Rigidbody>();
+    //    if (rb != null)
+    //    {
+    //        rb.velocity = Vector3.zero;
+    //        rb.angularVelocity = Vector3.zero;
+    //        rb.constraints = RigidbodyConstraints.FreezeAll;
+    //    }
         
-        MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
-        foreach (MonoBehaviour script in scripts)
-        {
-            if (script != this) // Avoid disabling the OnDie script itself if it's a MonoBehaviour
-            {
-                script.enabled = false;
-            }
-        }
-        enabled = false;
-    }
+    //    MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
+    //    foreach (MonoBehaviour script in scripts)
+    //    {
+    //        if (script != this) // Avoid disabling the OnDie script itself if it's a MonoBehaviour
+    //        {
+    //            script.enabled = false;
+    //        }
+    //    }
+    //    enabled = false;
+    //}
 
-    public void Gather(Vector3 enemyDiePos)
-    {
-        Debug.Log($"===" );
-        if (IsDead) return;
+    //public void Gather(Vector3 enemyDiePos)
+    //{
+    //    Debug.Log($"===" );
+    //    if (IsDead) return;
 
-        transform.LookAt(enemyDiePos);
-        navMeshAgent.SetDestination(enemyDiePos);
+    //    transform.LookAt(enemyDiePos);
+    //    navMeshAgent.SetDestination(enemyDiePos);
 
-        if (Vector3.Distance(enemyDiePos, transform.position) < 1f)
-        {
-            StartCoroutine(attackTimeDelay());
-            Debug.Log($"==={gameObject.name} Reached team member's death position");
+    //    if (Vector3.Distance(enemyDiePos, transform.position) < 1f)
+    //    {
+    //        StartCoroutine(attackTimeDelay());
+    //        Debug.Log($"==={gameObject.name} Reached team member's death position");
 
-            patrolBehavior();
-        }
-    }
+    //        patrolBehavior();
+    //    }
+    //}
 
-    private IEnumerator attackTimeDelay()
-    {
-        yield return new WaitForSeconds(2f); // Wait for 3 seconds
+    //private IEnumerator attackTimeDelay()
+    //{
+    //    yield return new WaitForSeconds(2f); // Wait for 3 seconds
 
-        //Debug.Log($"===End of attackTimeDelay");
+    //    //Debug.Log($"===End of attackTimeDelay");
 
-    }
-    void OnEnable()
-    {
-        EnemyManager.OnEnemyDeath += GatherAndChase;
-    }
+    //}
+    //void OnEnable()
+    //{
+    //    EnemyManager.OnEnemyDeath += GatherAndChase;
+    //}
 
-    void OnDisable()
-    {
-        EnemyManager.OnEnemyDeath -= GatherAndChase;
-    }
+    //void OnDisable()
+    //{
+    //    EnemyManager.OnEnemyDeath -= GatherAndChase;
+    //}
 
-    void GatherAndChase(Vector3 deathPosition)
-    {
-        // Use deathPosition to move towards that point
-        Debug.Log($"=== GatherAndChase");
+    //void GatherAndChase(Vector3 deathPosition)
+    //{
+    //    // Use deathPosition to move towards that point
+    //    Debug.Log($"=== GatherAndChase");
 
-    }
+    //}
 
 }
