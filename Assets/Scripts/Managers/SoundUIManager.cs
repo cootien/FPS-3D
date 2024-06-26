@@ -10,6 +10,7 @@ public class SoundUIManager : MonoBehaviour
     public Slider  MasterSlider, BGSlider, VFXSlider;
     public AudioMixer mainAudioMixer;
 
+
     public void ChangeMasterVolume()
     {
         mainAudioMixer.SetFloat("Master", MasterSlider.value); 

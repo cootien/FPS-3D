@@ -14,15 +14,16 @@ public class EnemyController : Singleton<EnemyController>
 
     [SerializeField] private LightRayCast rayCast;
 
-    private bool Detected;
+    private bool IsRunning;
     public bool IsDead;
     private bool IsIdle;
+    private bool IsBeingHurt;
+
 
 
     public int damage;
 
     int currentPointIndex;
-    int lastPointIndex;
 
 
     private void Awake()
@@ -33,15 +34,29 @@ public class EnemyController : Singleton<EnemyController>
     private void Update()
     {
 
-        patrolBehavior();
+        followPoints();
 
     }
-    public void patrolBehavior()
+    
+    public void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"patrol called: {IsDead}, {IsIdle}");
+        if (IsBeingHurt) return;
+        if (IsRunning) return;
+
+        if (other.gameObject.CompareTag("Weapon"))
+        {
+            Debug.Log("OnTriggerEnter weapon");
+
+            OnHurt();
+        }
+    }
+    public void followPoints()
+    {
+        Debug.Log($"patrol called: {IsIdle}, {IsRunning}");
 
         if (IsDead) return;
         if (IsIdle) return;
+        
 
         float distanceToWaypoint = Vector3.Distance(transform.position, patrolPoints.GetPointPosition(currentPointIndex));
 
@@ -55,7 +70,6 @@ public class EnemyController : Singleton<EnemyController>
         }
         else
         {
-            Debug.Log("Calling on Idle");
             OnIdle();
 
             currentPointIndex = patrolPoints.getNextPointIndex(currentPointIndex);
@@ -65,55 +79,95 @@ public class EnemyController : Singleton<EnemyController>
     //IDLE 
     public void OnIdle()
     {
-        Debug.Log("Ennter on Idle");
+        if (IsRunning) return;
 
         IsIdle = true;
-        Debug.Log("Ennter on Idle 1");
+        IsBeingHurt = false;
+        
 
         anim.SetBool("Idle", true);
-        Debug.Log("Ennter on Idle 2");
-
+        anim.SetBool("Hurt", false);
+        anim.SetBool("Run", false);
 
         navMeshAgent.speed = 0f;
-        Debug.Log("Ennter on Idle 3");
 
     }
     public void OnIdleFinished()
     {
-        Debug.Log("Finish on Idle");
 
         IsIdle = false;
+
         anim.SetBool("Idle", false);
         navMeshAgent.speed = 1f;
-        Debug.Log("Ennter on finnishIdle 3");
+        //Debug.Log("Ennter on finnishIdle 3");
 
     }
 
+    //Hurt
+    public void OnHurt()
+    {
+        IsBeingHurt = true;
+        IsIdle = false;
+        IsRunning = false;
+
+        anim.SetBool("Hurt", true);
+        anim.SetBool("Idle", false);
+        anim.SetBool("Run", false);
+
+    }
+    public void OnHurtFinished()
+    {
+        IsBeingHurt = false;
+        anim.SetBool("Hurt", false);
+        navMeshAgent.speed = 1f;
+        Debug.Log("Ennter on finnish Hurt");
+
+        OnPlayerDetected();
+    }
+
+    //PlayerDetected
     public void OnPlayerDetected()
     {
-        Detected = true;
-        anim.SetBool("Detected", true);
+        IsRunning = true;
+        IsIdle = false;
+        IsBeingHurt = false;
+        Debug.Log("Ennter on OnPlayerDetected");
+        Debug.Log ($"OnPlayerDetected Running {IsRunning}");
 
+
+        anim.SetBool("Run", true);
+        anim.SetBool("Hurt", false);
+        anim.SetBool("Idle", false);
+
+        //followPoints();
         navMeshAgent.speed = 2f;
 
-        StartCoroutine(attackTimeDelay());
+        StartCoroutine(runningTime());
+        Debug.Log("===finished waiting some seconds");
+        Debug.Log($"nav mesh speed - run {navMeshAgent.speed}");
 
-        patrolBehavior();
 
+        //OnPlayerUndected();
     }
 
     public void OnPlayerUndected()
     {
+        IsRunning = false;
+        IsBeingHurt = false;
+        IsIdle = false;
 
-        Detected = false;
-        anim.SetBool("Detected", false);
+        Debug.Log($"OnPlayerUndected Running {IsRunning}");
+
+        anim.SetBool("Run", IsRunning);
+        anim.SetBool("Hurt", IsBeingHurt);
+        anim.SetBool("Idle", IsIdle);
 
         navMeshAgent.speed = 1f;
 
     }
     public void OnDie()
     {
-        Detected = false;
+        IsRunning = false;
         IsDead = true;
 
         navMeshAgent.enabled = false;
@@ -137,45 +191,17 @@ public class EnemyController : Singleton<EnemyController>
         enabled = false;
     }
 
-    public void Gather(Vector3 enemyDiePos)
+    private IEnumerator runningTime()
     {
-        Debug.Log($"===");
-        if (IsDead) return;
+        //Debug.Log($"will wait some seconnnds");
 
-        transform.LookAt(enemyDiePos);
-        navMeshAgent.SetDestination(enemyDiePos);
+        yield return new WaitForSeconds(10f); // Wait for 3 seconds
 
-        if (Vector3.Distance(enemyDiePos, transform.position) < 1f)
-        {
-            StartCoroutine(attackTimeDelay());
-            Debug.Log($"==={gameObject.name} Reached team member's death position");
+        //Debug.Log($"finish wait some seconnnds");
+        OnPlayerUndected();
 
-            patrolBehavior();
-        }
+
     }
 
-    private IEnumerator attackTimeDelay()
-    {
-        yield return new WaitForSeconds(2f); // Wait for 3 seconds
-
-        //Debug.Log($"===End of attackTimeDelay");
-
-    }
-    void OnEnable()
-    {
-        EnemyManager.OnEnemyDeath += GatherAndChase;
-    }
-
-    void OnDisable()
-    {
-        EnemyManager.OnEnemyDeath -= GatherAndChase;
-    }
-
-    void GatherAndChase(Vector3 deathPosition)
-    {
-        // Use deathPosition to move towards that point
-        Debug.Log($"=== GatherAndChase");
-
-    }
 
 }

@@ -28,12 +28,14 @@ public class PauseMenu : MonoBehaviour
     }
     public void Exit()
     {
+        Debug.Log(" game exit");
         Application.Quit();
     }
     public void OpenSettings()
     {
         PausePanel.SetActive(false);
         SettingPanel.SetActive(true);
+        GameManager.Instance.currentScreenName = "setting";
 
         pausePanelVideoPlayer.Pause();
         settingPanelVideoPlayer.Play();

@@ -13,10 +13,8 @@ public class LightRayCast : MonoBehaviour
     public UnityEvent playerDetected;
     public UnityEvent playerUndetected;
 
-
     public float lightRadius = 3f; 
     public LayerMask playerLayer;
-
 
 
     public void OnTriggerEnter(Collider other)
@@ -29,6 +27,7 @@ public class LightRayCast : MonoBehaviour
         {
             playerDetected.Invoke();
             //Debug.Log("Ontrigger enter player && PlayerDetected Invoked");
+            
         }
     }
     public void OnTriggerExit(Collider other)

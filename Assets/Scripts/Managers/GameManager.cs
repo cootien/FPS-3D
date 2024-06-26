@@ -9,10 +9,14 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject PausePanel;
     [SerializeField] private GameObject PanelGameOver;
     [SerializeField] private GameObject PanelGameWin;
+    [SerializeField] private GameObject SoundUIManager;
     public int CurrentLevel;
 
     private bool isPaused = false;
     public VideoPlayer pausePanelVideoPlayer;
+
+    public string currentScreenName = "";
+
 
     private void Start()
     {
@@ -23,9 +27,15 @@ public class GameManager : Singleton<GameManager>
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (pausePanelVideoPlayer.isPlaying)
+            if (currentScreenName == "main")
             {
                 Continue();
+            }
+            else if (currentScreenName == "setting")
+            {
+                Pause();
+                Debug.Log(" enter setting");
+
             }
             else
             {
@@ -64,14 +74,18 @@ public class GameManager : Singleton<GameManager>
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        currentScreenName = "main";
         PausePanel.SetActive(true);
         pausePanelVideoPlayer.Play();
-        Debug.Log($"pause vid play: {pausePanelVideoPlayer.isPlaying}");
+
+        SoundUIManager.SetActive(false);
+        //Debug.Log($"pause vid play: {pausePanelVideoPlayer.isPlaying}");
         Time.timeScale = 0;
     }
     public void Continue()
     {
         PausePanel.SetActive(false);
+        currentScreenName = "";
         Time.timeScale = 1;
     }
 
