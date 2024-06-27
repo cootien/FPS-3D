@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject PanelGameOver;
     [SerializeField] private GameObject PanelGameWin;
     [SerializeField] private GameObject SoundUIManager;
+    [SerializeField] private GameObject MiniMap;
     public int CurrentLevel;
 
     private bool isPaused = false;
@@ -29,16 +30,22 @@ public class GameManager : Singleton<GameManager>
         {
             if (currentScreenName == "main")
             {
+                MiniMap.SetActive(true);
+
                 Continue();
             }
             else if (currentScreenName == "setting")
             {
                 Pause();
+                MiniMap.SetActive(false);
+
                 Debug.Log(" enter setting");
 
             }
             else
             {
+                MiniMap.SetActive(false);
+
                 Pause();
             }
   
@@ -59,6 +66,8 @@ public class GameManager : Singleton<GameManager>
 
         StopGame();
         PanelGameOver.SetActive(true);
+        //MiniMap.SetActive(false);
+
     }
 
     public void OnMissionCompleted()
@@ -68,6 +77,8 @@ public class GameManager : Singleton<GameManager>
 
         StopGame();
         PanelGameWin.SetActive(true);
+        //MiniMap.SetActive(false);
+
     }
 
     public void Pause()
@@ -79,11 +90,14 @@ public class GameManager : Singleton<GameManager>
         pausePanelVideoPlayer.Play();
 
         SoundUIManager.SetActive(false);
+        MiniMap.SetActive(false);
+
         //Debug.Log($"pause vid play: {pausePanelVideoPlayer.isPlaying}");
         Time.timeScale = 0;
     }
     public void Continue()
     {
+        //MiniMap.SetActive(true);
         PausePanel.SetActive(false);
         currentScreenName = "";
         Time.timeScale = 1;

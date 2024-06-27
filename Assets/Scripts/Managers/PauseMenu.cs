@@ -8,11 +8,14 @@ public class PauseMenu : MonoBehaviour
     public GameObject PausePanel;
     public GameObject SettingPanel;
 
+    //public GameObject MiniMap;
+
     public VideoPlayer pausePanelVideoPlayer;
     public VideoPlayer settingPanelVideoPlayer;
 
     public void Pause()
     {
+        //MiniMap.SetActive(false);
         PausePanel.SetActive(true);
         SettingPanel.SetActive(false);
         pausePanelVideoPlayer.Play();
@@ -21,6 +24,8 @@ public class PauseMenu : MonoBehaviour
     }
     public void Continue()
     {
+        //MiniMap.SetActive(true);
+
         PausePanel.SetActive(false);
         SettingPanel.SetActive(false);
 
@@ -30,9 +35,12 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log(" game exit");
         Application.Quit();
+        Debug.Log(" --game exit");
+
     }
     public void OpenSettings()
     {
+        //MiniMap.SetActive(false);
         PausePanel.SetActive(false);
         SettingPanel.SetActive(true);
         GameManager.Instance.currentScreenName = "setting";
