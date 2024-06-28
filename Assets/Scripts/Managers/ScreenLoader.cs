@@ -12,4 +12,13 @@ public class ScreenLoader : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
+    public void Exit()
+    {
+        Debug.Log("enter quit 1");
+        Application.Quit();
+
+        Debug.Log("enter quit 2");
+        throw new System.Exception("dsd");
+
+    }
 }

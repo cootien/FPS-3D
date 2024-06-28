@@ -51,38 +51,6 @@ public class PlayerAttack : Singleton<PlayerAttack>
             }
         }
     }
-    //private IEnumerator DelayedAttack()
-    //{
-    //    yield return new WaitForSeconds(attackDelay);
-    //    isAttacking = true;
-
-    //    // Simulate the duration of the attack (adjust this duration as needed)
-    //    yield return new WaitForSeconds(0.1f);
-
-    //    isAttacking = false;
-    //}
-
-    //void AttackRaycast()
-    //{
-    //    if (Physics.Raycast(weapon.transform.position, weapon.transform.forward, out RaycastHit hit, attackDistance))
-    //    {
-    //        weapon.ShowHitEffect(hit);
-
-    //        if (hit.collider.CompareTag("Enemy"))
-    //        { weapon.DeliverDamage(hit.collider); }
-    //    }
-    //}
-
-
-    //public void DeliverDamage(Collider enemy)
-    //{
-    //    Health health = enemy.GetComponentInParent<Health>();
-    //    StabbingSound.Play();
-    //    if (health != null)
-    //    {
-    //        Debug.Log("Deliver Damage");
-    //        health.TakeDamage(damage);
-    //    }
-    //}
+    
 
 }

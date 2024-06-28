@@ -52,7 +52,7 @@ public class EnemyController : Singleton<EnemyController>
     }
     public void followPoints()
     {
-        Debug.Log($"patrol called: {IsIdle}, {IsRunning}");
+        //Debug.Log($"patrol called: {IsIdle}, {IsRunning}");
 
         if (IsDead) return;
         if (IsIdle) return;
@@ -73,7 +73,7 @@ public class EnemyController : Singleton<EnemyController>
             OnIdle();
 
             currentPointIndex = patrolPoints.getNextPointIndex(currentPointIndex);
-            Debug.Log($"scurrent position set");
+            //Debug.Log($"scurrent position set");
         }
     }
     //IDLE 
@@ -143,8 +143,8 @@ public class EnemyController : Singleton<EnemyController>
         navMeshAgent.speed = 2f;
 
         StartCoroutine(runningTime());
-        Debug.Log("===finished waiting some seconds");
-        Debug.Log($"nav mesh speed - run {navMeshAgent.speed}");
+        //Debug.Log("===finished waiting some seconds");
+        //Debug.Log($"nav mesh speed - run {navMeshAgent.speed}");
 
 
         //OnPlayerUndected();
@@ -197,7 +197,7 @@ public class EnemyController : Singleton<EnemyController>
 
         yield return new WaitForSeconds(10f); // Wait for 3 seconds
 
-        //Debug.Log($"finish wait some seconnnds");
+        Debug.Log($"calling OnPlayerUndected");
         OnPlayerUndected();
 
 

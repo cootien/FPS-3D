@@ -26,6 +26,8 @@ public class PauseMenu : MonoBehaviour
     {
         //MiniMap.SetActive(true);
 
+        GameManager.Instance.Click.Play();
+
         PausePanel.SetActive(false);
         SettingPanel.SetActive(false);
 
@@ -33,6 +35,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void Exit()
     {
+        GameManager.Instance.Click.Play();
         Debug.Log(" game exit");
         Application.Quit();
         Debug.Log(" --game exit");
@@ -40,6 +43,8 @@ public class PauseMenu : MonoBehaviour
     }
     public void OpenSettings()
     {
+        GameManager.Instance.Click.Play();
+
         //MiniMap.SetActive(false);
         PausePanel.SetActive(false);
         SettingPanel.SetActive(true);

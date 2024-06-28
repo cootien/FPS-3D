@@ -18,6 +18,9 @@ public class GameManager : Singleton<GameManager>
 
     public string currentScreenName = "";
 
+    public AudioSource FunBG;
+    public AudioSource HorrorBG;
+    public AudioSource Click;
 
     private void Start()
     {
@@ -28,6 +31,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            
             if (currentScreenName == "main")
             {
                 MiniMap.SetActive(true);
@@ -79,10 +83,15 @@ public class GameManager : Singleton<GameManager>
         PanelGameWin.SetActive(true);
         //MiniMap.SetActive(false);
 
+        HorrorBG.Stop();
+        FunBG.Play();
+
     }
 
     public void Pause()
     {
+        Click.Play();
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         currentScreenName = "main";
@@ -97,6 +106,8 @@ public class GameManager : Singleton<GameManager>
     }
     public void Continue()
     {
+        Click.Play();
+
         //MiniMap.SetActive(true);
         PausePanel.SetActive(false);
         currentScreenName = "";

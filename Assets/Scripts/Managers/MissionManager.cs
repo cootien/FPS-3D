@@ -6,6 +6,7 @@ using TMPro;
 public class MissionManager : Singleton<MissionManager>
 {
     [SerializeField] private MissionSO missionSO;
+    [SerializeField] private TextMeshProUGUI textMission;
 
     private int requiredKill;
     private int currentKill;
@@ -21,56 +22,43 @@ public class MissionManager : Singleton<MissionManager>
     {
         yield return VerifyEnemyKill();
         //yield return VerifyPlayerExit();
-         yield return new WaitForSeconds(3f);
+         //yield return new WaitForSeconds(3f);
         Debug.Log("===VerifyMission");
         GameManager.Instance.OnMissionCompleted();
     }
-    //private IEnumerator VerifyPlayerExit()
-    //{
-    //    textMission.text = $"Find Exit Door";
-    //    exitDoor.onPlayerEnter.AddListener(OnPlayerExit);
-    //    yield return new WaitUntil(() => isPlayerExit);
-    //    exitDoor.onPlayerEnter.RemoveListener(OnPlayerExit);
-    //}
+    
     public void OnEnemyKilled()
     {
         currentKill++;
-        //Debug.Log($"===OnEnemyKilled - currentKill: {currentKill}");
-
-
-        //textMission.text = $"Kill {requiredKill} zombie" + $" - Current Kill : {currentKill}";
+        
+        textMission.text = $"{currentKill} " + $"  {requiredKill}";
         //Debug.Log("======= OnZombieKilled");
     }
     private IEnumerator VerifyEnemyKill()
     {
-        currentKill = 0;
-        //textMission.text = $"Kill {requiredKill} zombie" + $" - Current Kill : {currentKill}";
+        //currentKill = 0;
+        //textMission.text = $"{currentKill}/ " + $"{requiredKill}";
         yield return new WaitUntil(() => IsCompletedMission());
     }
     private void InitMisson()
     {
         //Debug.Log("===enter InitMisson");
+        currentKill = 0;
+
 
         var index = GameManager.Instance.CurrentLevel - 1;
         var numKillMission = missionSO.listMission[index].NumKill;
         requiredKill = numKillMission;
         //Debug.Log($"===requiredKill: {requiredKill}");
 
+        textMission.text = $"{currentKill} " + $"  {requiredKill}";
+
     }
     bool IsCompletedMission()
     {
-        bool isCompleted = currentKill >= requiredKill;
-        //Debug.Log($"===IscompletedMission: {isCompleted}");
-        return isCompleted;
-    }
-    //bool IsCompletedMission()
-    //{
-    //    return currentKill >= requiredKill;
-    //    Debug.Log($"IscompletedMission: {IsCompletedMission}");
+        return currentKill >= requiredKill;
+        //Debug.Log($"IscompletedMission: {IsCompletedMission}");
 
-    //}
-    //private void OnPlayerExit()
-    //{
-    //    isPlayerExit = true;
-    //}
+    }
+    
 }
