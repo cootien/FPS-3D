@@ -10,23 +10,51 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject PanelGameOver;
     [SerializeField] private GameObject PanelGameWin;
     [SerializeField] private GameObject SoundUIManager;
-    [SerializeField] private GameObject MiniMap;
+    [SerializeField] public GameObject UIOnScreen;
+
+    [SerializeField] private GameObject IntroVideo;
+
+
     public int CurrentLevel;
 
-    private bool isPaused = false;
+    //private bool isPaused = false;
     public VideoPlayer pausePanelVideoPlayer;
+    public VideoPlayer introVideoPlayer;
 
     public string currentScreenName = "";
 
     public AudioSource FunBG;
     public AudioSource HorrorBG;
     public AudioSource Click;
+    public AudioSource VoiceOver;
+
+
 
     private void Start()
     {
         CurrentLevel = 1;
         pausePanelVideoPlayer = PausePanel.GetComponent<VideoPlayer>();
+        introVideoPlayer = IntroVideo.GetComponent<VideoPlayer>();
+
+        VoiceOver.Play();
+
+        StartCoroutine(PlayIntroVideo());
+
+        //VoiceOver.Play();
+
     }
+    private IEnumerator PlayIntroVideo()
+    {
+        UIOnScreen.SetActive(false);
+
+        IntroVideo.SetActive(true);
+        introVideoPlayer.Play();
+
+        StartCoroutine(ScreenDelay10());
+        yield return "";
+        //Debug.Log($"inntro playing after 10 {introVideoPlayer.isPlaying}");
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -34,22 +62,18 @@ public class GameManager : Singleton<GameManager>
             
             if (currentScreenName == "main")
             {
-                MiniMap.SetActive(true);
+                UIOnScreen.SetActive(true);
 
                 Continue();
             }
             else if (currentScreenName == "setting")
             {
                 Pause();
-                MiniMap.SetActive(false);
-
-                Debug.Log(" enter setting");
 
             }
             else
             {
-                MiniMap.SetActive(false);
-
+                
                 Pause();
             }
   
@@ -58,30 +82,33 @@ public class GameManager : Singleton<GameManager>
 
     private void StopGame()
     {
-        Debug.Log("===enter Stop game");
+        //Debug.Log("===enter Stop game");
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Time.timeScale = 0; 
     }
+
     public void OnGameover()
     {
-        //StartCoroutine(ScreenDelay());
-
         StopGame();
+
+        HorrorBG.Stop();
+        FunBG.Play();
+        UIOnScreen.SetActive(false);
+
         PanelGameOver.SetActive(true);
-        //MiniMap.SetActive(false);
+        //Debug.Log("===enter On LOSE");
 
     }
 
     public void OnMissionCompleted()
     {
         Debug.Log("===enter On Mission Completed");
-        StartCoroutine(ScreenDelay());
+        //StartCoroutine(ScreenDelay());
 
         StopGame();
         PanelGameWin.SetActive(true);
-        //MiniMap.SetActive(false);
 
         HorrorBG.Stop();
         FunBG.Play();
@@ -91,6 +118,7 @@ public class GameManager : Singleton<GameManager>
     public void Pause()
     {
         Click.Play();
+        UIOnScreen.SetActive(false);
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -99,7 +127,6 @@ public class GameManager : Singleton<GameManager>
         pausePanelVideoPlayer.Play();
 
         SoundUIManager.SetActive(false);
-        MiniMap.SetActive(false);
 
         //Debug.Log($"pause vid play: {pausePanelVideoPlayer.isPlaying}");
         Time.timeScale = 0;
@@ -108,16 +135,29 @@ public class GameManager : Singleton<GameManager>
     {
         Click.Play();
 
+        UIOnScreen.SetActive(true);
+
         //MiniMap.SetActive(true);
         PausePanel.SetActive(false);
         currentScreenName = "";
         Time.timeScale = 1;
     }
 
-    private IEnumerator ScreenDelay()
-    {
-        yield return new WaitForSeconds(2f); 
+    //private IEnumerator ScreenDelay()
+    //{
+    //    yield return new WaitForSeconds(2f); 
 
+    //}
+    private IEnumerator ScreenDelay10()
+    {
+        yield return new WaitForSeconds(10f);
+        //Debug.Log($"=inntro playing {introVideoPlayer.isPlaying}");
+        IntroVideo.SetActive(false);
+        UIOnScreen.SetActive(true);
+
+        //VoiceOver.Stop();
+
+        //Debug.Log("===video finish");
     }
 
 }

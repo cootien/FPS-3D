@@ -13,7 +13,7 @@ public class EnemyHealth : Health
         //Debug.Log($"Max HP - enemyHealth: {MaxHP}");
     }
 
-    protected override void Die()
+    public override void Die()
     {
         base.Die();
         MissionManager.Instance.OnEnemyKilled();

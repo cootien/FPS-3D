@@ -13,7 +13,7 @@ public class SirenDetected : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             Siren.Play();
-            Debug.Log("==SirennPlay");
+            //Debug.Log("==SirennPlay");
 
             sirenPlaying = true;
             StartCoroutine(SirenTime());

@@ -13,7 +13,9 @@ public class LightRayCast : MonoBehaviour
     public UnityEvent playerDetected;
     public UnityEvent playerUndetected;
 
-    public float lightRadius = 3f; 
+    public float lightRadius = 3f;
+    public int damage;
+
     public LayerMask playerLayer;
 
 
@@ -26,8 +28,8 @@ public class LightRayCast : MonoBehaviour
         if (colliders.Length > 0)
         {
             playerDetected.Invoke();
-            //Debug.Log("Ontrigger enter player && PlayerDetected Invoked");
-            
+            DeliverDamage(other);
+            //Debug.Log($"deliver dame on player");
         }
     }
     public void OnTriggerExit(Collider other)
@@ -38,7 +40,16 @@ public class LightRayCast : MonoBehaviour
         if (colliders.Length == 0)
         {
             playerUndetected.Invoke();
-            Debug.Log("Player move away && playerUndetected Invoked");
+            
+        }
+    }
+    public void DeliverDamage(Collider player)
+    {
+        Health health = player.GetComponentInParent<Health>();
+        
+        if (health != null)
+        {
+            health.TakeDamage(damage);
         }
     }
 

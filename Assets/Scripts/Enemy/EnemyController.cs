@@ -45,7 +45,7 @@ public class EnemyController : Singleton<EnemyController>
 
         if (other.gameObject.CompareTag("Weapon"))
         {
-            Debug.Log("OnTriggerEnter weapon");
+            //Debug.Log("OnTriggerEnter weapon");
 
             OnHurt();
         }
@@ -120,7 +120,7 @@ public class EnemyController : Singleton<EnemyController>
         IsBeingHurt = false;
         anim.SetBool("Hurt", false);
         navMeshAgent.speed = 1f;
-        Debug.Log("Ennter on finnish Hurt");
+        //Debug.Log("Ennter on finnish Hurt");
 
         OnPlayerDetected();
     }
@@ -131,8 +131,8 @@ public class EnemyController : Singleton<EnemyController>
         IsRunning = true;
         IsIdle = false;
         IsBeingHurt = false;
-        Debug.Log("Ennter on OnPlayerDetected");
-        Debug.Log ($"OnPlayerDetected Running {IsRunning}");
+        //Debug.Log("Ennter on OnPlayerDetected");
+        //Debug.Log ($"OnPlayerDetected Running {IsRunning}");
 
 
         anim.SetBool("Run", true);
@@ -156,7 +156,7 @@ public class EnemyController : Singleton<EnemyController>
         IsBeingHurt = false;
         IsIdle = false;
 
-        Debug.Log($"OnPlayerUndected Running {IsRunning}");
+        //Debug.Log($"OnPlayerUndected Running {IsRunning}");
 
         anim.SetBool("Run", IsRunning);
         anim.SetBool("Hurt", IsBeingHurt);
@@ -197,7 +197,7 @@ public class EnemyController : Singleton<EnemyController>
 
         yield return new WaitForSeconds(10f); // Wait for 3 seconds
 
-        Debug.Log($"calling OnPlayerUndected");
+        //Debug.Log($"calling OnPlayerUndected");
         OnPlayerUndected();
 
 
