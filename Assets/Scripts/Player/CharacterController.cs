@@ -24,7 +24,7 @@ namespace Test // adding namespace to separate between Character Controller of U
 
         public AudioSource WalkingSound;
         public float WalkSpeedMax;
-        public int damage;
+        //public int damage;
         private Collider enemy;
 
         private float currentSpeed;

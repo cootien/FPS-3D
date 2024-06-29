@@ -1,9 +1,8 @@
 using UnityEngine;
 using System.Collections;
-namespace NightSkyBox
+
+namespace Test2
 {
-
-
 	public class LookCamera : MonoBehaviour
 	{
 		public float speedNormal = 10.0f;
@@ -14,13 +13,13 @@ namespace NightSkyBox
 
 		float rotY = 0.0f;
 
-		void Awake()
+		void Start()
 		{
 			if (GetComponent<Rigidbody>())
 				GetComponent<Rigidbody>().freezeRotation = true;
 		}
 
-		void LateUpdate()
+		void Update()
 		{
 			// rotation        
 			if (Input.GetMouseButton(1))

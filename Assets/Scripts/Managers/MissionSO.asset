@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listMission:
   - NumKill: 3
+  - NumKill: 4

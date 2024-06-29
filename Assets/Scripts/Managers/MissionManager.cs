@@ -45,7 +45,6 @@ public class MissionManager : Singleton<MissionManager>
         //Debug.Log("===enter InitMisson");
         currentKill = 0;
 
-
         var index = GameManager.Instance.CurrentLevel - 1;
         var numKillMission = missionSO.listMission[index].NumKill;
         requiredKill = numKillMission;

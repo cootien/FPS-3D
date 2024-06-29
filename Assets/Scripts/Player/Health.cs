@@ -12,6 +12,7 @@ public class Health : MonoBehaviour
     public UnityEvent<int, int> onHealthChanged;
     public int MaxHP;
 
+
     private int _healthPoint;  
 
     private bool IsDead => _healthPoint <=0 ;
@@ -29,6 +30,7 @@ public class Health : MonoBehaviour
     protected virtual void Start()
     {
         _healthPoint = MaxHP;
+       
     }
 
     public void TakeDamage(int damage)
@@ -40,7 +42,7 @@ public class Health : MonoBehaviour
             Die();
         }
     }
-    protected virtual void Die()
+    public virtual void Die()
     {
         if (anim != null)
         {   
@@ -48,5 +50,6 @@ public class Health : MonoBehaviour
             Debug.Log("===Set trigger Die");
         }
         onDie.Invoke();
+
     }
 }
